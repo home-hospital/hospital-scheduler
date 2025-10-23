@@ -1,0 +1,2145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Orange Color Palette */
+    --primary: #FF6B35;
+    --primary-light: #FF8C5A;
+    --primary-dark: #E55100;
+    --secondary: #F7931E;
+    --accent: #FFA500;
+    --success: #10B981;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+    --dark: #1F2937;
+    --light: #FFF8F3;
+    --border: #FFE4CC;
+    --text: #374151;
+    --shadow: rgba(255, 107, 53, 0.15);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #FFF8F3 0%, #FFF0E6 100%);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* ============ NAVIGATION ============ */
+.navbar {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    padding: 1.2rem 0;
+    box-shadow: 0 8px 32px var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 4px solid var(--accent);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-icon {
+    font-size: 2.5rem;
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+
+
+.logo h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid transparent;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn.active {
+    background: white;
+    color: var(--primary);
+    border-color: white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ============ MAIN CONTENT ============ */
+.main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+.dashboard-view {
+    display: none;
+    animation: fadeInUp 0.5s ease;
+}
+
+.dashboard-view.active {
+    display: block;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 3px solid var(--accent);
+}
+
+.dashboard-header h2 {
+    font-size: 2rem;
+    color: var(--primary);
+    font-weight: 800;
+}
+
+/* ============ BUTTONS ============ */
+.btn {
+    padding: 0.85rem 1.8rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--shadow);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 165, 0, 0.4);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ============ COORDINATOR DASHBOARD ============ */
+.coordinator-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2.5rem;
+}
+
+.coordinator-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.map-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px var(--shadow);
+    overflow: hidden;
+    border: 3px solid var(--accent);
+}
+
+.map-placeholder {
+    background: linear-gradient(135deg, #FFE4CC 0%, #FFF0E6 100%);
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.map-content h3 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.coverage-areas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.area {
+    padding: 1.5rem;
+    border-radius: 15px;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.area:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.area.tampere {
+    background: linear-gradient(135deg, #FF6B35, #FF8C5A);
+}
+
+.area.sastamala {
+    background: linear-gradient(135deg, #F7931E, #FFA500);
+}
+
+.area.hameenkyre {
+    background: linear-gradient(135deg, #10B981, #34D399);
+}
+
+.capacity-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px var(--shadow);
+    border-left: 6px solid var(--primary);
+}
+
+.capacity-card h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.capacity-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.capacity-number {
+    color: var(--secondary);
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
+.capacity-bar {
+    width: 100%;
+    height: 30px;
+    background: #FFE4CC;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid var(--accent);
+}
+
+.capacity-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    width: 50%;
+    transition: width 0.3s ease;
+    border-radius: 13px;
+}
+
+.coordinator-right {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px var(--shadow);
+    border-top: 6px solid var(--secondary);
+}
+
+.coordinator-right h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+/* ============ TABLES ============ */
+.schedule-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid var(--accent);
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.schedule-table thead {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+}
+
+.schedule-table th {
+    padding: 1.2rem;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.schedule-table td {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.schedule-table tbody tr:hover {
+    background: #FFF8F3;
+    transition: all 0.2s ease;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--success), #34D399);
+    color: white;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+}
+
+/* ============ SUPERVISOR DASHBOARD ============ */
+.supervisor-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.supervisor-section {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px var(--shadow);
+    border-top: 6px solid var(--accent);
+}
+
+.supervisor-section h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.workload-chart {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+}
+
+.workload-bar {
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 2px solid var(--accent);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.workload-bar:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px var(--shadow);
+}
+
+.workload-bar-name {
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.workload-bar-visual {
+    width: 100%;
+    height: 180px;
+    background: #FFE4CC;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    border: 2px solid var(--accent);
+}
+
+.workload-bar-fill {
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+.workload-bar-count {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--secondary);
+}
+
+.rules-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.rule-item {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    border-radius: 12px;
+    border-left: 5px solid var(--primary);
+}
+
+.rule-label {
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.rule-value {
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* ============ PROFESSIONAL DASHBOARD ============ */
+.professional-container {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px var(--shadow);
+}
+
+.staff-selector,
+.patient-selector {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.staff-selector label,
+.patient-selector label {
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-size: 0.95rem;
+}
+
+.staff-selector select,
+.patient-selector select {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    background: white;
+    color: var(--text);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.staff-selector select:focus,
+.patient-selector select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.professional-section {
+    margin-bottom: 2.5rem;
+}
+
+.professional-section h3 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.personal-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.schedule-item {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    border-radius: 12px;
+    border-left: 5px solid var(--primary);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.schedule-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 8px 20px var(--shadow);
+}
+
+.schedule-item-time {
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: var(--secondary);
+    min-width: 80px;
+}
+
+.schedule-item-info {
+    flex: 1;
+}
+
+.schedule-item-patient {
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+}
+
+.schedule-item-location {
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.schedule-item-duration {
+    text-align: right;
+    font-size: 0.85rem;
+    color: white;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.route-order {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.route-item {
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border: 2px solid var(--accent);
+}
+
+.route-number {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+}
+
+.route-location {
+    flex: 1;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.route-time {
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.patient-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.patient-detail-card {
+    padding: 1.5rem;
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    background: white;
+}
+
+.patient-detail-name {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.patient-detail-info {
+    display: grid;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+}
+
+/* ============ PATIENT VIEW ============ */
+.patient-container {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px var(--shadow);
+}
+
+.patient-card {
+    max-width: 700px;
+}
+
+.patient-info {
+    background: linear-gradient(135deg, #FFE4CC 0%, #FFF0E6 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 3px solid var(--accent);
+}
+
+.patient-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1.5rem;
+}
+
+.patient-info-name {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--primary);
+}
+
+.patient-priority {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background: linear-gradient(135deg, var(--danger), #FF6B6B);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.patient-info-details {
+    display: grid;
+    gap: 1rem;
+    font-size: 0.95rem;
+}
+
+.patient-info-item {
+    display: flex;
+    gap: 1rem;
+}
+
+.patient-info-label {
+    font-weight: 800;
+    color: var(--secondary);
+    min-width: 130px;
+}
+
+.patient-visit {
+    background: linear-gradient(135deg, var(--success), #34D399);
+    color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    border: 3px solid #10B981;
+}
+
+.patient-visit h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.patient-visit-info {
+    display: grid;
+    gap: 1rem;
+}
+
+.patient-visit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.patient-visit-label {
+    font-weight: 700;
+}
+
+.patient-visit-value {
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+.placeholder {
+    text-align: center;
+    color: var(--text);
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    border-radius: 12px;
+    border: 2px dashed var(--accent);
+    font-weight: 600;
+}
+
+/* ============ AVAILABILITY FORM ============ */
+.availability-form {
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 2px solid var(--accent);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.days-selector,
+.coverage-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.8rem;
+    background: white;
+    border-radius: 10px;
+    border: 2px solid var(--accent);
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.checkbox-item:hover {
+    background: #FFE4CC;
+    border-color: var(--primary);
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group input[type="time"],
+.form-group input[type="number"],
+.form-group textarea {
+    width: 100%;
+    padding: 0.85rem;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: white;
+}
+
+.form-group input[type="time"]:focus,
+.form-group input[type="number"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    font-weight: 500;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 2rem;
+}
+
+.form-actions .btn {
+    flex: 1;
+}
+
+/* ============ AVAILABILITY CARDS ============ */
+.submitted-availability {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.availability-card {
+    background: white;
+    border: 3px solid var(--success);
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.15);
+    transition: all 0.3s ease;
+}
+
+.availability-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(16, 185, 129, 0.2);
+}
+
+.availability-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.availability-title {
+    font-weight: 800;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.availability-badge {
+    background: linear-gradient(135deg, var(--success), #34D399);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.availability-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.availability-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.availability-label {
+    font-weight: 800;
+    color: var(--primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.availability-value {
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.delete-availability {
+    background: linear-gradient(135deg, var(--danger), #FF6B6B);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 700;
+    align-self: flex-start;
+}
+
+.delete-availability:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+}
+
+/* ============ FOOTER ============ */
+.footer {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+.footer p {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+@media (max-width: 1024px) {
+    .coordinator-container {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-menu {
+        flex-wrap: wrap;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .main-content {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .logo h1 {
+        font-size: 1.3rem;
+    }
+
+    .nav-menu {
+        justify-content: flex-start;
+        gap: 0.5rem;
+    }
+
+    .nav-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .main-content {
+        padding: 1rem;
+    }
+
+    .dashboard-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .schedule-table {
+        font-size: 0.75rem;
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+        padding: 0.5rem;
+    }
+
+    .rules-list {
+        grid-template-columns: 1fr;
+    }
+
+    .workload-chart {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .days-selector,
+    .coverage-selector {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        flex: none;
+    }
+
+    .availability-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.schedule-item {
+    animation: slideInLeft 0.5s ease;
+}
+
+.availability-card {
+    animation: slideInLeft 0.5s ease;
+}
+EOF
+cat /home/claude/orange-theme-styles.css
+Output
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Orange Color Palette */
+    --primary: #FF6B35;
+    --primary-light: #FF8C5A;
+    --primary-dark: #E55100;
+    --secondary: #F7931E;
+    --accent: #FFA500;
+    --success: #10B981;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+    --dark: #1F2937;
+    --light: #FFF8F3;
+    --border: #FFE4CC;
+    --text: #374151;
+    --shadow: rgba(255, 107, 53, 0.15);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #FFF8F3 0%, #FFF0E6 100%);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* ============ NAVIGATION ============ */
+.navbar {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    padding: 1.2rem 0;
+    box-shadow: 0 8px 32px var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 4px solid var(--accent);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-icon {
+    font-size: 2.5rem;
+    animation: bounce 2s infinite;
+}
+
+
+.logo h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid transparent;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn.active {
+    background: white;
+    color: var(--primary);
+    border-color: white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ============ MAIN CONTENT ============ */
+.main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+.dashboard-view {
+    display: none;
+    animation: fadeInUp 0.5s ease;
+}
+
+.dashboard-view.active {
+    display: block;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 3px solid var(--accent);
+}
+
+.dashboard-header h2 {
+    font-size: 2rem;
+    color: var(--primary);
+    font-weight: 800;
+}
+
+/* ============ BUTTONS ============ */
+.btn {
+    padding: 0.85rem 1.8rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--shadow);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 165, 0, 0.4);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ============ COORDINATOR DASHBOARD ============ */
+.coordinator-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2.5rem;
+}
+
+.coordinator-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.map-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px var(--shadow);
+    overflow: hidden;
+    border: 3px solid var(--accent);
+}
+
+.map-placeholder {
+    background: linear-gradient(135deg, #FFE4CC 0%, #FFF0E6 100%);
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.map-content h3 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.coverage-areas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.area {
+    padding: 1.5rem;
+    border-radius: 15px;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.area:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.area.tampere {
+    background: linear-gradient(135deg, #FF6B35, #FF8C5A);
+}
+
+.area.sastamala {
+    background: linear-gradient(135deg, #F7931E, #FFA500);
+}
+
+.area.hameenkyre {
+    background: linear-gradient(135deg, #10B981, #34D399);
+}
+
+.capacity-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px var(--shadow);
+    border-left: 6px solid var(--primary);
+}
+
+.capacity-card h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.capacity-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.capacity-number {
+    color: var(--secondary);
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
+.capacity-bar {
+    width: 100%;
+    height: 30px;
+    background: #FFE4CC;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid var(--accent);
+}
+
+.capacity-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    width: 50%;
+    transition: width 0.3s ease;
+    border-radius: 13px;
+}
+
+.coordinator-right {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px var(--shadow);
+    border-top: 6px solid var(--secondary);
+}
+
+.coordinator-right h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+/* ============ TABLES ============ */
+.schedule-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid var(--accent);
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.schedule-table thead {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+}
+
+.schedule-table th {
+    padding: 1.2rem;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.schedule-table td {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.schedule-table tbody tr:hover {
+    background: #FFF8F3;
+    transition: all 0.2s ease;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--success), #34D399);
+    color: white;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+}
+
+/* ============ SUPERVISOR DASHBOARD ============ */
+.supervisor-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.supervisor-section {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px var(--shadow);
+    border-top: 6px solid var(--accent);
+}
+
+.supervisor-section h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.workload-chart {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+}
+
+.workload-bar {
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 2px solid var(--accent);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.workload-bar:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px var(--shadow);
+}
+
+.workload-bar-name {
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.workload-bar-visual {
+    width: 100%;
+    height: 180px;
+    background: #FFE4CC;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    border: 2px solid var(--accent);
+}
+
+.workload-bar-fill {
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+.workload-bar-count {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--secondary);
+}
+
+.rules-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.rule-item {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    border-radius: 12px;
+    border-left: 5px solid var(--primary);
+}
+
+.rule-label {
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.rule-value {
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* ============ PROFESSIONAL DASHBOARD ============ */
+.professional-container {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px var(--shadow);
+}
+
+.staff-selector,
+.patient-selector {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.staff-selector label,
+.patient-selector label {
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-size: 0.95rem;
+}
+
+.staff-selector select,
+.patient-selector select {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    background: white;
+    color: var(--text);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.staff-selector select:focus,
+.patient-selector select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.professional-section {
+    margin-bottom: 2.5rem;
+}
+
+.professional-section h3 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.personal-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.schedule-item {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    border-radius: 12px;
+    border-left: 5px solid var(--primary);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.schedule-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 8px 20px var(--shadow);
+}
+
+.schedule-item-time {
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: var(--secondary);
+    min-width: 80px;
+}
+
+.schedule-item-info {
+    flex: 1;
+}
+
+.schedule-item-patient {
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+}
+
+.schedule-item-location {
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.schedule-item-duration {
+    text-align: right;
+    font-size: 0.85rem;
+    color: white;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.route-order {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.route-item {
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border: 2px solid var(--accent);
+}
+
+.route-number {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+}
+
+.route-location {
+    flex: 1;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.route-time {
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.patient-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.patient-detail-card {
+    padding: 1.5rem;
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    background: white;
+}
+
+.patient-detail-name {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.patient-detail-info {
+    display: grid;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+}
+
+/* ============ PATIENT VIEW ============ */
+.patient-container {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px var(--shadow);
+}
+
+.patient-card {
+    max-width: 700px;
+}
+
+.patient-info {
+    background: linear-gradient(135deg, #FFE4CC 0%, #FFF0E6 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 3px solid var(--accent);
+}
+
+.patient-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1.5rem;
+}
+
+.patient-info-name {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--primary);
+}
+
+.patient-priority {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background: linear-gradient(135deg, var(--danger), #FF6B6B);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.patient-info-details {
+    display: grid;
+    gap: 1rem;
+    font-size: 0.95rem;
+}
+
+.patient-info-item {
+    display: flex;
+    gap: 1rem;
+}
+
+.patient-info-label {
+    font-weight: 800;
+    color: var(--secondary);
+    min-width: 130px;
+}
+
+.patient-visit {
+    background: linear-gradient(135deg, var(--success), #34D399);
+    color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    border: 3px solid #10B981;
+}
+
+.patient-visit h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.patient-visit-info {
+    display: grid;
+    gap: 1rem;
+}
+
+.patient-visit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.patient-visit-label {
+    font-weight: 700;
+}
+
+.patient-visit-value {
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+.placeholder {
+    text-align: center;
+    color: var(--text);
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    border-radius: 12px;
+    border: 2px dashed var(--accent);
+    font-weight: 600;
+}
+
+/* ============ AVAILABILITY FORM ============ */
+.availability-form {
+    background: linear-gradient(135deg, #FFF8F3, #FFE4CC);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 2px solid var(--accent);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.days-selector,
+.coverage-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.8rem;
+    background: white;
+    border-radius: 10px;
+    border: 2px solid var(--accent);
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.checkbox-item:hover {
+    background: #FFE4CC;
+    border-color: var(--primary);
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group input[type="time"],
+.form-group input[type="number"],
+.form-group textarea {
+    width: 100%;
+    padding: 0.85rem;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: white;
+}
+
+.form-group input[type="time"]:focus,
+.form-group input[type="number"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    font-weight: 500;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 2rem;
+}
+
+.form-actions .btn {
+    flex: 1;
+}
+
+/* ============ AVAILABILITY CARDS ============ */
+.submitted-availability {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.availability-card {
+    background: white;
+    border: 3px solid var(--success);
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.15);
+    transition: all 0.3s ease;
+}
+
+.availability-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(16, 185, 129, 0.2);
+}
+
+.availability-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.availability-title {
+    font-weight: 800;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.availability-badge {
+    background: linear-gradient(135deg, var(--success), #34D399);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.availability-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.availability-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.availability-label {
+    font-weight: 800;
+    color: var(--primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.availability-value {
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.delete-availability {
+    background: linear-gradient(135deg, var(--danger), #FF6B6B);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 700;
+    align-self: flex-start;
+}
+
+.delete-availability:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+}
+
+/* ============ FOOTER ============ */
+.footer {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+.footer p {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+@media (max-width: 1024px) {
+    .coordinator-container {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-menu {
+        flex-wrap: wrap;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .main-content {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .logo h1 {
+        font-size: 1.3rem;
+    }
+
+    .nav-menu {
+        justify-content: flex-start;
+        gap: 0.5rem;
+    }
+
+    .nav-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .main-content {
+        padding: 1rem;
+    }
+
+    .dashboard-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .schedule-table {
+        font-size: 0.75rem;
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+        padding: 0.5rem;
+    }
+
+    .rules-list {
+        grid-template-columns: 1fr;
+    }
+
+    .workload-chart {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .days-selector,
+    .coverage-selector {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        flex: none;
+    }
+
+    .availability-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.schedule-item {
+    animation: slideInLeft 0.5s ease;
+}
+
+.availability-card {
+    animation: slideInLeft 0.5s ease;
+}

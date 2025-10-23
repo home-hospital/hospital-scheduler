@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Home Hospital Scheduler - Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="./helpers/Gemini_Generated_Image_be9g28be9g28be9g.png" alt="Home Hospital Logo" class="logo-icon">
+                    <h1>Home Hospital Scheduler</h1>
+                </div>
+                <div class="nav-menu">
+                    <button class="nav-btn active" data-view="coordinator">Coordinator</button>
+                    <button class="nav-btn" data-view="supervisor">Supervisor</button>
+                    <button class="nav-btn" data-view="professional">Professional</button>
+                    <button class="nav-btn" data-view="patient">Patient</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- COORDINATOR DASHBOARD -->
+            <section id="coordinator-view" class="dashboard-view active">
+                <div class="dashboard-header">
+                    <h2>👤 Coordinator Dashboard (Henna)</h2>
+                    <button id="run-scheduler" class="btn btn-primary">Run AI Scheduler</button>
+                </div>
+
+                <div class="coordinator-container">
+                    <!-- Left: Map and Stats -->
+                    <div class="coordinator-left">
+                        <div class="map-container">
+                            <div id="map" class="map-placeholder">
+                                <div class="map-content">
+                                    <h3>Coverage Area Map</h3>
+                                    <div class="coverage-areas">
+                                        <div class="area tampere">Oulu</div>
+                                        <div class="area sastamala">Kempale</div>
+                                        <div class="area hameenkyre">Kiiminki</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="capacity-card">
+                            <h3>Today's Capacity</h3>
+                            <div class="capacity-display">
+                                <div class="capacity-number" id="capacity-current">15</div>
+                                <span>/</span>
+                                <div class="capacity-number" id="capacity-max">30</div>
+                                <span>Patients</span>
+                            </div>
+                            <div class="capacity-bar">
+                                <div class="capacity-fill" id="capacity-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Schedule Table -->
+                    <div class="coordinator-right">
+                        <h3>Real-Time Schedule</h3>
+                        <div class="schedule-table-wrapper">
+                            <table class="schedule-table">
+                                <thead>
+                                    <tr>
+                                        <th>Staff</th>
+                                        <th>Patient</th>
+                                        <th>Time</th>
+                                        <th>Location</th>
+                                        <th>Care Type</th>
+                                        <th>Travel</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="schedule-body">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary" id="export-csv">📥 Export CSV</button>
+                            <button class="btn btn-secondary" id="refresh-schedule">🔄 Refresh</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SUPERVISOR DASHBOARD -->
+            <section id="supervisor-view" class="dashboard-view">
+                <div class="dashboard-header">
+                    <h2>👥 Supervisor Dashboard (Milja)</h2>
+                    <button class="btn btn-secondary" id="manual-adjust">Manual Adjustments</button>
+                </div>
+
+                <div class="supervisor-container">
+                    <!-- Schedule Overview -->
+                    <div class="supervisor-section">
+                        <h3>Schedule Overview - All Staff</h3>
+                        <div class="schedule-table-wrapper">
+                            <table class="schedule-table">
+                                <thead>
+                                    <tr>
+                                        <th>Staff</th>
+                                        <th>Role</th>
+                                        <th>Patient</th>
+                                        <th>Time</th>
+                                        <th>Care Type</th>
+                                        <th>Location</th>
+                                        <th>Priority</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="supervisor-schedule">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Workload Balance -->
+                    <div class="supervisor-section">
+                        <h3>Workload Balance</h3>
+                        <div id="workload-chart" class="workload-chart">
+                            <!-- Chart populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Rules & Constraints -->
+                    <div class="supervisor-section">
+                        <h3>Active Rules</h3>
+                        <div class="rules-list">
+                            <div class="rule-item">
+                                <span class="rule-label">Max Travel Time:</span>
+                                <span class="rule-value">30 min</span>
+                            </div>
+                            <div class="rule-item">
+                                <span class="rule-label">Coverage Areas:</span>
+                                <span class="rule-value">Oulu, Kempale, Kiiminki </span>
+                            </div>
+                            <div class="rule-item">
+                                <span class="rule-label">Max Workload:</span>
+                                <span class="rule-value">8 hours/day</span>
+                            </div>
+                            <div class="rule-item">
+                                <span class="rule-label">Priority:</span>
+                                <span class="rule-value">Urgent Palliative First</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROFESSIONAL DASHBOARD -->
+            <section id="professional-view" class="dashboard-view">
+                <div class="dashboard-header">
+                    <h2>👨‍⚕️ Professional Dashboard (Doctors/Nurses)</h2>
+                </div>
+
+                <div class="professional-container">
+                    <!-- Staff Selector -->
+                    <div class="staff-selector">
+                        <label for="staff-select">Select Staff Member:</label>
+                        <select id="staff-select">
+                            <option value="">-- Choose staff --</option>
+                        </select>
+                    </div>
+
+                    <!-- AVAILABILITY UPLOAD SECTION -->
+                    <div class="professional-section">
+                        <h3>📋 Upload Availability for Next Week</h3>
+                        <div class="availability-form">
+                            <div class="form-group">
+                                <label>Select Days:</label>
+                                <div class="days-selector">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" class="day-checkbox" value="Monday"> Monday
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" class="day-checkbox" value="Tuesday"> Tuesday
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" class="day-checkbox" value="Wednesday"> Wednesday
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" class="day-checkbox" value="Thursday"> Thursday
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" class="day-checkbox" value="Friday"> Friday
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" class="day-checkbox" value="Saturday"> Saturday
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="start-time">Start Time:</label>
+                                    <input type="time" id="start-time" value="09:00">
+                                </div>
+                                <div class="form-group">
+                                    <label for="end-time">End Time:</label>
+                                    <input type="time" id="end-time" value="17:00">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="max-hours">Max Hours per Day:</label>
+                                <input type="number" id="max-hours" value="8" min="1" max="12">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Coverage Areas:</label>
+                                <div class="coverage-selector">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" class="coverage-checkbox" value="Oulu"> Oulu
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" class="coverage-checkbox" value="Kempale"> Kempale
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" class="coverage-checkbox" value="Kiiminki"> Kiiminki
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="notes">Additional Notes:</label>
+                                <textarea id="notes" placeholder="Any special requirements or preferences..." rows="3"></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn btn-primary" id="submit-availability">✅ Submit Availability</button>
+                                <button class="btn btn-secondary" id="clear-form">🔄 Clear Form</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBMITTED AVAILABILITY -->
+                    <div class="professional-section">
+                        <h3>✅ Your Submitted Availability</h3>
+                        <div id="submitted-availability" class="submitted-availability">
+                            <p class="placeholder">No availability submitted yet</p>
+                        </div>
+                    </div>
+
+                    <!-- Personal Schedule -->
+                    <div class="professional-section">
+                        <h3>📅 Your Daily Schedule</h3>
+                        <div id="personal-schedule" class="personal-schedule">
+                            <p class="placeholder">Select a staff member to view schedule</p>
+                        </div>
+                    </div>
+
+                    <!-- Route Optimization -->
+                    <div class="professional-section">
+                        <h3>🗺️ Optimized Route Order</h3>
+                        <div id="route-order" class="route-order">
+                            <p class="placeholder">Select a staff member to view route</p>
+                        </div>
+                    </div>
+
+                    <!-- Patient Details -->
+                    <div class="professional-section">
+                        <h3>🏥 Patient Care Details</h3>
+                        <div id="patient-details" class="patient-details">
+                            <p class="placeholder">Select a staff member to view patient details</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PATIENT VIEW -->
+            <section id="patient-view" class="dashboard-view">
+                <div class="dashboard-header">
+                    <h2>🩺 Patient View</h2>
+                </div>
+
+                <div class="patient-container">
+                    <!-- Patient Selector -->
+                    <div class="patient-selector">
+                        <label for="patient-select">Select Patient:</label>
+                        <select id="patient-select">
+                            <option value="">-- Choose patient --</option>
+                        </select>
+                    </div>
+
+                    <!-- Patient Card -->
+                    <div id="patient-card" class="patient-card">
+                        <p class="placeholder">Select a patient to view upcoming visits</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>AI-Powered Home Hospital Scheduling System • Demo Version</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

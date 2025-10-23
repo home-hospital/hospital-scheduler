@@ -1,0 +1,19 @@
+{
+  "name": "hospital-scheduler-demo",
+  "version": "1.0.0",
+  "description": "AI-Powered Home Hospital Scheduling System Demo",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["healthcare", "scheduling", "ai", "demo"],
+  "author": "Hospital Scheduler Team",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}
