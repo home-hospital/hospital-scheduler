@@ -31,6 +31,8 @@ async function initializeApp() {
     
     // Setup event listeners
     setupEventListeners();
+    setupAvailabilityListeners();
+    setupPatientViewListeners();
     
     console.log('✅ App initialized successfully');
 }
@@ -213,12 +215,22 @@ function renderProfessionalDashboard(data) {
             const detailCard = document.createElement('div');
             detailCard.className = 'patient-detail-card';
             detailCard.innerHTML = `
-                <div class="patient-detail-name">${item.patientName}</div>
-                <div class="patient-detail-info">
-                    <div><strong>Care Type:</strong> ${item.careType}</div>
-                    <div><strong>Location:</strong> ${item.address}</div>
-                    <div><strong>Time:</strong> ${item.time}</div>
-                    <div><strong>Duration:</strong> ${item.duration} minutes</div>
+                <div class="detail-card-header">
+                    <div class="detail-patient-name">${item.patientName}</div>
+                </div>
+                <div class="detail-card-body">
+                    <div class="detail-item">
+                        <span class="detail-key">Care Type:</span>
+                        <span class="detail-val">${item.careType}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-key">Time:</span>
+                        <span class="detail-val">${item.time}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-key">Location:</span>
+                        <span class="detail-val">${item.address}</span>
+                    </div>
                 </div>
             `;
             patientDetailsDiv.appendChild(detailCard);
@@ -226,124 +238,71 @@ function renderProfessionalDashboard(data) {
     }
 }
 
-// PATIENT VIEW
+// PATIENT VIEW - Old version (kept for compatibility)
 function renderPatientView(data) {
-    const patientCard = document.getElementById('patient-card');
-    patientCard.innerHTML = '';
-
+    const container = document.getElementById('patient-card');
+    
     if (!data.patient) {
-        patientCard.innerHTML = '<p class="placeholder">Patient not found</p>';
+        container.innerHTML = '<p class="placeholder">Patient not found</p>';
         return;
     }
-
+    
     const patient = data.patient;
     const visit = data.upcomingVisit;
-
-    let html = `
-        <div class="patient-info">
-            <div class="patient-info-header">
-                <div class="patient-info-name">${patient.name}</div>
-                ${patient.priority === 'Urgent' ? '<span class="patient-priority">⚠️ URGENT</span>' : ''}
+    
+    if (!visit) {
+        container.innerHTML = `
+            <div class="patient-info">
+                <h3>${patient.name}</h3>
+                <p><strong>Location:</strong> ${patient.location}</p>
+                <p><strong>Care Needs:</strong> ${patient.careNeeds.join(', ')}</p>
+                <p style="color: #999; margin-top: 1rem;">No upcoming visit scheduled</p>
             </div>
-            <div class="patient-info-details">
-                <div class="patient-info-item">
-                    <span class="patient-info-label">Care Needs:</span>
-                    <span>${patient.careNeeds.join(', ')}</span>
-                </div>
-                <div class="patient-info-item">
-                    <span class="patient-info-label">Location:</span>
-                    <span>${patient.location}</span>
-                </div>
-                <div class="patient-info-item">
-                    <span class="patient-info-label">Address:</span>
-                    <span>${patient.address}</span>
-                </div>
-                <div class="patient-info-item">
-                    <span class="patient-info-label">Preferred Time:</span>
-                    <span>${patient.preferredTime}</span>
-                </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = `
+        <div class="visit-card">
+            <h3>📅 Upcoming Visit</h3>
+            <div class="visit-info">
+                <p><strong>Patient:</strong> ${patient.name}</p>
+                <p><strong>Professional:</strong> ${visit.staffName}</p>
+                <p><strong>Time:</strong> ${visit.time}</p>
+                <p><strong>Care Type:</strong> ${visit.careType}</p>
+                <p><strong>Address:</strong> ${visit.address}</p>
+                <p><strong>Duration:</strong> ${visit.duration} min</p>
             </div>
         </div>
     `;
-
-    if (visit) {
-        html += `
-            <div class="patient-visit">
-                <h3>📅 Upcoming Visit Today</h3>
-                <div class="patient-visit-info">
-                    <div class="patient-visit-item">
-                        <span class="patient-visit-label">Healthcare Professional:</span>
-                        <span class="patient-visit-value">${visit.staffName}</span>
-                    </div>
-                    <div class="patient-visit-item">
-                        <span class="patient-visit-label">Time:</span>
-                        <span class="patient-visit-value">${visit.time}</span>
-                    </div>
-                    <div class="patient-visit-item">
-                        <span class="patient-visit-label">Care Type:</span>
-                        <span class="patient-visit-value">${visit.careType}</span>
-                    </div>
-                    <div class="patient-visit-item">
-                        <span class="patient-visit-label">Duration:</span>
-                        <span class="patient-visit-value">${visit.duration} minutes</span>
-                    </div>
-                </div>
-            </div>
-        `;
-    } else {
-        html += '<div class="placeholder">No visit scheduled for today</div>';
-    }
-
-    patientCard.innerHTML = html;
 }
 
-// ===== UTILITIES =====
-
-function populateStaffSelector() {
-    const select = document.getElementById('staff-select');
-    appState.staff.forEach(staff => {
-        const option = document.createElement('option');
-        option.value = staff.id;
-        option.textContent = `${staff.name} - ${staff.role}`;
-        select.appendChild(option);
-    });
-}
-
-function populatePatientSelector() {
-    const select = document.getElementById('patient-select');
-    appState.patients.forEach(patient => {
-        const option = document.createElement('option');
-        option.value = patient.id;
-        option.textContent = `${patient.name} - ${patient.location}`;
-        select.appendChild(option);
-    });
-}
-
-// ===== EVENT LISTENERS =====
+// ===== NAVIGATION =====
 
 function setupNavigation() {
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const view = e.target.dataset.view;
+    const navBtns = document.querySelectorAll('.nav-btn');
+    navBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const view = this.dataset.view;
             switchView(view);
         });
     });
 }
 
 function switchView(view) {
-    appState.currentView = view;
-
-    // Hide all views
-    document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
-    
-    // Show selected view
-    document.getElementById(`${view}-view`).classList.add('active');
-
-    // Update nav buttons
+    // Update button states
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('active');
-        if (btn.dataset.view === view) btn.classList.add('active');
     });
+    document.querySelector(`[data-view="${view}"]`).classList.add('active');
+
+    // Hide all views
+    document.querySelectorAll('.dashboard-view').forEach(v => {
+        v.classList.remove('active');
+    });
+
+    // Show selected view
+    document.getElementById(`${view}-view`).classList.add('active');
 
     // Load data for view
     if (view === 'supervisor') {
@@ -353,274 +312,554 @@ function switchView(view) {
 
 function setupEventListeners() {
     // Coordinator events
-    document.getElementById('run-scheduler').addEventListener('click', runScheduler);
-    document.getElementById('export-csv').addEventListener('click', exportSchedule);
-    document.getElementById('refresh-schedule').addEventListener('click', loadCoordinatorData);
+    const runSchedulerBtn = document.getElementById('run-scheduler');
+    if (runSchedulerBtn) {
+        runSchedulerBtn.addEventListener('click', runScheduler);
+    }
 
-    // Professional events
-    document.getElementById('staff-select').addEventListener('change', (e) => {
-        if (e.target.value) {
-            loadProfessionalData(parseInt(e.target.value));
-        }
-    });
+    const exportCsvBtn = document.getElementById('export-csv');
+    if (exportCsvBtn) {
+        exportCsvBtn.addEventListener('click', exportSchedule);
+    }
 
-    // Patient events
-    document.getElementById('patient-select').addEventListener('change', (e) => {
-        if (e.target.value) {
-            loadPatientData(parseInt(e.target.value));
-        }
-    });
+    const refreshBtn = document.getElementById('refresh-schedule');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', loadCoordinatorData);
+    }
 
-    setupAvailabilityListeners();
-
-
+    // Professional selector
+    const staffSelect = document.getElementById('staff-select');
+    if (staffSelect) {
+        staffSelect.addEventListener('change', (e) => {
+            if (e.target.value) {
+                loadProfessionalData(parseInt(e.target.value));
+            }
+        });
+    }
 }
 
-// ===== ACTIONS =====
+// ===== SCHEDULER FUNCTIONS =====
 
 async function runScheduler() {
     const btn = document.getElementById('run-scheduler');
+    btn.textContent = '⏳ Running...';
     btn.disabled = true;
-    btn.textContent = '⏳ Running AI Scheduler...';
 
     try {
-        const response = await fetch(`${API_BASE}/run-scheduler`, { method: 'POST' });
+        const response = await fetch(`${API_BASE}/run-scheduler`, {
+            method: 'POST'
+        });
         const data = await response.json();
-        
-        if (data.success) {
-            appState.schedule = data.schedule;
-            renderCoordinatorDashboard();
-            
-            // Show success feedback
-            alert('✅ Schedule optimized successfully!\n\n' + data.message);
-        }
+        appState.schedule = data.schedule;
+        renderCoordinatorDashboard();
+        alert('✅ Schedule optimized successfully!');
     } catch (error) {
-        console.error('Error running scheduler:', error);
         alert('❌ Error running scheduler');
     } finally {
-        btn.disabled = false;
         btn.textContent = '🤖 Run AI Scheduler';
+        btn.disabled = false;
     }
 }
 
-function exportSchedule() {
-    window.location.href = `${API_BASE}/export-schedule`;
+async function exportSchedule() {
+    try {
+        const response = await fetch(`${API_BASE}/export-schedule`);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'schedule.csv';
+        a.click();
+    } catch (error) {
+        alert('❌ Error exporting schedule');
+    }
 }
 
+// ===== POPULATE SELECTORS =====
 
-//AVAILABILITY MANAGEMENT (WITH BACKEND)
+function populateStaffSelector() {
+    const select = document.getElementById('staff-select');
+    if (!select) return;
 
-let availabilitySubmissions = {};
+    fetch(`${API_BASE}/coordinator`)
+        .then(res => res.json())
+        .then(data => {
+            data.staff.forEach(staff => {
+                const option = document.createElement('option');
+                option.value = staff.id;
+                option.textContent = `${staff.name} - ${staff.role}`;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error populating staff:', error));
+}
 
-// Setup availability event listeners
+function populatePatientSelector() {
+    const select = document.getElementById('patient-select');
+    if (!select) return;
+
+    fetch(`${API_BASE}/coordinator`)
+        .then(res => res.json())
+        .then(data => {
+            data.patients.forEach(patient => {
+                const option = document.createElement('option');
+                option.value = patient.id;
+                option.textContent = `${patient.name} (ID: ${patient.id})`;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error populating patients:', error));
+}
+
+// ===== AVAILABILITY FUNCTIONS =====
+
 function setupAvailabilityListeners() {
-    document.getElementById('submit-availability').addEventListener('click', submitAvailability);
-    document.getElementById('clear-form').addEventListener('click', clearAvailabilityForm);
+    const submitAvailabilityBtn = document.getElementById('submit-availability');
+    if (submitAvailabilityBtn) {
+        submitAvailabilityBtn.addEventListener('click', submitAvailability);
+    }
+
+    const staffIdInput = document.getElementById('staff-id-input');
+    if (staffIdInput) {
+        staffIdInput.addEventListener('input', function() {
+            loadAvailabilityHistory(this.value);
+        });
+    }
 }
 
 async function submitAvailability() {
-    // Get selected staff
-    const staffSelect = document.getElementById('staff-select');
-    if (!staffSelect.value) {
-        alert('⚠️ Please select a staff member first!');
+    const staffId = document.getElementById('staff-id-input')?.value;
+    const staffName = document.getElementById('staff-name-input')?.value;
+    const selectedDays = Array.from(document.querySelectorAll('.day-checkbox:checked')).map(el => el.value);
+    const startTime = document.getElementById('start-time')?.value;
+    const endTime = document.getElementById('end-time')?.value;
+    const maxHours = document.getElementById('max-hours')?.value;
+    const coverageAreas = Array.from(document.querySelectorAll('.area-checkbox:checked')).map(el => el.value);
+    const notes = document.getElementById('availability-notes')?.value;
+
+    if (!staffId || !staffName || selectedDays.length === 0 || !startTime || !endTime || coverageAreas.length === 0) {
+        alert('⚠️ Please fill in all required fields');
         return;
     }
 
-    const staffId = staffSelect.value;
-    const staffName = staffSelect.options[staffSelect.selectedIndex].text;
-
-    // Get selected days
-    const selectedDays = Array.from(document.querySelectorAll('.day-checkbox:checked'))
-        .map(cb => cb.value);
-
-    if (selectedDays.length === 0) {
-        alert('⚠️ Please select at least one day!');
-        return;
-    }
-
-    // Get times
-    const startTime = document.getElementById('start-time').value;
-    const endTime = document.getElementById('end-time').value;
-    const maxHours = document.getElementById('max-hours').value;
-
-    // Get coverage areas
-    const coverageAreas = Array.from(document.querySelectorAll('.coverage-checkbox:checked'))
-        .map(cb => cb.value);
-
-    if (coverageAreas.length === 0) {
-        alert('⚠️ Please select at least one coverage area!');
-        return;
-    }
-
-    // Get notes
-    const notes = document.getElementById('notes').value;
-
-    // Show loading state
-    const submitBtn = document.getElementById('submit-availability');
-    submitBtn.disabled = true;
-    submitBtn.textContent = '⏳ Submitting...';
+    const availabilityData = {
+        staffId: staffId,
+        staffName: staffName,
+        days: selectedDays,
+        startTime: startTime,
+        endTime: endTime,
+        maxHours: maxHours || 8,
+        coverageAreas: coverageAreas,
+        notes: notes
+    };
 
     try {
-        // Send to backend
         const response = await fetch(`${API_BASE}/availability/submit`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                staffId: staffId,
-                staffName: staffName,
-                days: selectedDays,
-                startTime: startTime,
-                endTime: endTime,
-                maxHours: maxHours,
-                coverageAreas: coverageAreas,
-                notes: notes
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(availabilityData)
         });
 
-        const data = await response.json();
-
-        if (data.success) {
-            // Store locally as well
-            if (!availabilitySubmissions[staffId]) {
-                availabilitySubmissions[staffId] = [];
-            }
-            availabilitySubmissions[staffId].push(data.submission);
-
-            // Show success message
-            alert('✅ Availability submitted successfully!\n\n' +
-                'Days: ' + selectedDays.join(', ') + '\n' +
-                'Time: ' + startTime + ' - ' + endTime + '\n' +
-                'Coverage: ' + coverageAreas.join(', '));
-
-            // Refresh display
-            await loadAvailabilityFromBackend(staffId);
+        const result = await response.json();
+        if (result.success) {
+            alert('✅ Availability submitted successfully!');
             clearAvailabilityForm();
-        } else {
-            alert('❌ Error submitting availability: ' + (data.error || 'Unknown error'));
+            loadAvailabilityHistory(staffId);
         }
     } catch (error) {
-        console.error('Error submitting availability:', error);
-        alert('❌ Error submitting availability. Please try again.');
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = '✅ Submit Availability';
+        alert('❌ Error submitting availability');
     }
 }
 
-// Load availability from backend
-async function loadAvailabilityFromBackend(staffId) {
+async function loadAvailabilityHistory(staffId) {
+    if (!staffId) return;
+
     try {
         const response = await fetch(`${API_BASE}/availability/${staffId}`);
         const data = await response.json();
-        
-        availabilitySubmissions[staffId] = data.availability;
-        renderSubmittedAvailability(staffId);
+        displayAvailabilityHistory(data.availability);
     } catch (error) {
         console.error('Error loading availability:', error);
     }
 }
 
-function renderSubmittedAvailability(staffId) {
-    const container = document.getElementById('submitted-availability');
-    
-    if (!staffId || !availabilitySubmissions[staffId] || availabilitySubmissions[staffId].length === 0) {
-        container.innerHTML = '<p class="placeholder">No availability submitted yet</p>';
+function displayAvailabilityHistory(submissions) {
+    const historyDiv = document.getElementById('availability-history');
+    if (!historyDiv) return;
+
+    if (!submissions || submissions.length === 0) {
+        historyDiv.innerHTML = '<p class="placeholder">No availability submitted yet</p>';
         return;
     }
 
-    container.innerHTML = '';
-    const submissions = availabilitySubmissions[staffId];
+    historyDiv.innerHTML = '';
 
-    submissions.forEach((submission, index) => {
+    submissions.forEach(submission => {
         const card = document.createElement('div');
         card.className = 'availability-card';
-        
-        const daysText = submission.days.join(', ');
-        const coverageText = submission.coverageAreas.join(', ');
-        
         card.innerHTML = `
             <div class="availability-header">
-                <div class="availability-title">📅 Submission #${index + 1}</div>
-                <span class="availability-badge">Submitted</span>
+                <div class="availability-title">📅 ${submission.days.join(', ')}</div>
+                <button class="btn-small btn-danger" onclick="deleteAvailability('${submission.staffId}', ${submission.id})">🗑️</button>
             </div>
             <div class="availability-details">
-                <div class="availability-item">
-                    <span class="availability-label">Days:</span>
-                    <span class="availability-value">${daysText}</span>
-                </div>
-                <div class="availability-item">
-                    <span class="availability-label">Time:</span>
-                    <span class="availability-value">${submission.startTime} - ${submission.endTime}</span>
-                </div>
-                <div class="availability-item">
-                    <span class="availability-label">Max Hours/Day:</span>
-                    <span class="availability-value">${submission.maxHours} hours</span>
-                </div>
-                <div class="availability-item">
-                    <span class="availability-label">Coverage:</span>
-                    <span class="availability-value">${coverageText}</span>
-                </div>
-                <div class="availability-item">
-                    <span class="availability-label">Submitted:</span>
-                    <span class="availability-value">${submission.submittedAt}</span>
-                </div>
-                ${submission.notes ? `
-                <div class="availability-item">
-                    <span class="availability-label">Notes:</span>
-                    <span class="availability-value">"${submission.notes}"</span>
-                </div>
-                ` : ''}
+                <p><strong>Time:</strong> ${submission.startTime} - ${submission.endTime}</p>
+                <p><strong>Max Hours:</strong> ${submission.maxHours} hours</p>
+                <p><strong>Areas:</strong> ${submission.coverageAreas.join(', ')}</p>
+                <p><strong>Submitted:</strong> ${submission.submittedAt}</p>
+                ${submission.notes ? `<p><strong>Notes:</strong> "${submission.notes}"</p>` : ''}
             </div>
-            <button class="delete-availability" onclick="deleteAvailability('${staffId}', ${submission.id})">
-                🗑️ Delete
-            </button>
         `;
-        
-        container.appendChild(card);
+        historyDiv.appendChild(card);
     });
 }
 
 async function deleteAvailability(staffId, submissionId) {
-    if (confirm('Are you sure you want to delete this availability submission?')) {
-        try {
-            const response = await fetch(`${API_BASE}/availability/${staffId}/${submissionId}`, {
-                method: 'DELETE'
-            });
+    if (!confirm('Delete this availability submission?')) return;
 
-            const data = await response.json();
-
-            if (data.success) {
-                await loadAvailabilityFromBackend(staffId);
-                alert('✅ Availability deleted');
-            } else {
-                alert('❌ Error deleting availability');
-            }
-        } catch (error) {
-            console.error('Error deleting availability:', error);
-            alert('❌ Error deleting availability');
+    try {
+        const response = await fetch(`${API_BASE}/availability/${staffId}/${submissionId}`, {
+            method: 'DELETE'
+        });
+        const result = await response.json();
+        if (result.success) {
+            alert('✅ Availability deleted');
+            loadAvailabilityHistory(staffId);
         }
+    } catch (error) {
+        alert('❌ Error deleting availability');
     }
 }
 
 function clearAvailabilityForm() {
-    document.querySelectorAll('.day-checkbox').forEach(cb => cb.checked = false);
-    document.querySelectorAll('.coverage-checkbox').forEach(cb => cb.checked = false);
+    document.getElementById('staff-id-input').value = '';
+    document.getElementById('staff-name-input').value = '';
     document.getElementById('start-time').value = '09:00';
     document.getElementById('end-time').value = '17:00';
     document.getElementById('max-hours').value = '8';
-    document.getElementById('notes').value = '';
+    document.getElementById('availability-notes').value = '';
+    document.querySelectorAll('.day-checkbox').forEach(cb => cb.checked = false);
+    document.querySelectorAll('.area-checkbox').forEach(cb => cb.checked = false);
 }
 
-// Update professional dashboard to show availability
-async function updateProfessionalDashboardWithAvailability(staffId) {
-    if (staffId) {
-        await loadAvailabilityFromBackend(staffId);
-    } else {
-        document.getElementById('submitted-availability').innerHTML = 
-            '<p class="placeholder">No availability submitted yet</p>';
+// ===== ENHANCED PATIENT VIEW WITH BOOKING =====
+
+let currentPatientData = null;
+let selectedBookingDate = null;
+let selectedBookingTime = null;
+
+function setupPatientViewListeners() {
+    populatePatientSelector();
+    const select = document.getElementById('patient-select');
+    if (select) {
+        select.addEventListener('change', function(e) {
+            if (this.value) {
+                loadPatientAndShowBookingForm(this.value);
+            }
+        });
     }
+}
+
+async function loadPatientAndShowBookingForm(patientId) {
+    try {
+        const response = await fetch(`${API_BASE}/patient/${patientId}`);
+        const data = await response.json();
+        currentPatientData = data.patient;
+        renderPatientUpcomingVisit(data);
+        renderBookingFormForWeek(data.patient);
+    } catch (error) {
+        console.error('Error loading patient:', error);
+    }
+}
+
+function renderPatientUpcomingVisit(data) {
+    const container = document.getElementById('patient-card');
+    const patient = data.patient;
+    const visit = data.upcomingVisit;
+    
+    if (!patient) {
+        container.innerHTML = '<p class="placeholder">Patient not found</p>';
+        return;
+    }
+    
+    if (!visit) {
+        container.innerHTML = `
+            <div class="patient-info">
+                <div class="patient-info-header">
+                    <div class="patient-info-name">👤 ${patient.name}</div>
+                </div>
+                <div class="patient-info-details">
+                    <div class="patient-info-item">
+                        <span class="patient-info-label">ID:</span>
+                        <span class="patient-info-value">${patient.id}</span>
+                    </div>
+                    <div class="patient-info-item">
+                        <span class="patient-info-label">📍 Location:</span>
+                        <span class="patient-info-value">${patient.location}</span>
+                    </div>
+                    <div class="patient-info-item">
+                        <span class="patient-info-label">📮 Address:</span>
+                        <span class="patient-info-value">${patient.address}</span>
+                    </div>
+                    <div class="patient-info-item">
+                        <span class="patient-info-label">💊 Care Needs:</span>
+                        <span class="patient-info-value">${patient.careNeeds.join(', ')}</span>
+                    </div>
+                </div>
+                <div class="no-visit-msg">
+                    <p>ℹ️ No upcoming visit scheduled</p>
+                    <p>Book an appointment using the form on the right →</p>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = `
+        <div class="patient-info">
+            <div class="patient-info-header">
+                <div class="patient-info-name">👤 ${patient.name}</div>
+                <span class="patient-visit-priority">${patient.priority}</span>
+            </div>
+            
+            <div class="patient-info-details">
+                <div class="patient-info-item">
+                    <span class="patient-info-label">ID:</span>
+                    <span class="patient-info-value">${patient.id}</span>
+                </div>
+                <div class="patient-info-item">
+                    <span class="patient-info-label">📍 Location:</span>
+                    <span class="patient-info-value">${patient.location}</span>
+                </div>
+                <div class="patient-info-item">
+                    <span class="patient-info-label">📮 Address:</span>
+                    <span class="patient-info-value">${patient.address}</span>
+                </div>
+                <div class="patient-info-item">
+                    <span class="patient-info-label">💊 Care Needs:</span>
+                    <span class="patient-info-value">${patient.careNeeds.join(', ')}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="patient-visit">
+            <h4>📅 Upcoming Visit</h4>
+            <div class="visit-details">
+                <div class="visit-item">
+                    <span class="visit-label">👨‍⚕️ Professional:</span>
+                    <span class="visit-value">${visit.staffName}</span>
+                </div>
+                <div class="visit-item">
+                    <span class="visit-label">📅 Time:</span>
+                    <span class="visit-value">${visit.time}</span>
+                </div>
+                <div class="visit-item">
+                    <span class="visit-label">💼 Care Type:</span>
+                    <span class="visit-value">${visit.careType}</span>
+                </div>
+                <div class="visit-item">
+                    <span class="visit-label">📍 Address:</span>
+                    <span class="visit-value">${visit.address}</span>
+                </div>
+                <div class="visit-item">
+                    <span class="visit-label">✅ Status:</span>
+                    <span class="visit-value" style="background: linear-gradient(135deg, #5BA891, #7BBFA8); color: white; padding: 0.3rem 0.8rem; border-radius: 16px; font-size: 0.75rem; font-weight: 700; display: inline-block;">
+                        ${visit.status}
+                    </span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderBookingFormForWeek(patient) {
+    const container = document.getElementById('booking-form-container');
+    
+    if (!patient) {
+        container.innerHTML = '<p class="placeholder">Select a patient first</p>';
+        return;
+    }
+    
+    const days = [];
+    for (let i = 1; i <= 7; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() + i);
+        days.push({
+            dateStr: date.toISOString().split('T')[0],
+            dayName: date.toLocaleDateString('en-US', { weekday: 'short' }),
+            dayDate: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        });
+    }
+    
+    const timeSlots = [];
+    for (let hour = 9; hour < 17; hour++) {
+        timeSlots.push(`${String(hour).padStart(2, '0')}:00`);
+    }
+    
+    let html = `
+        <div class="booking-form-content">
+            <div class="booking-service-selector">
+                <label>Service Type *</label>
+                <select id="booking-service-type">
+                    <option value="">Select service type</option>
+                    <option value="consultation">Consultation</option>
+                    <option value="checkup">Health Checkup</option>
+                    <option value="therapy">Therapy</option>
+                    <option value="medication">Medication</option>
+                    <option value="wound-care">Wound Care</option>
+                </select>
+            </div>
+            
+            <div>
+                <label style="font-weight: 600; color: var(--primary); font-size: 0.85rem; display: block; margin-bottom: 0.8rem;">Select Day *</label>
+                <div class="booking-day-selector">
+    `;
+    
+    days.forEach(day => {
+        html += `
+            <button class="day-btn" data-date="${day.dateStr}" onclick="selectBookingDay(this, '${day.dateStr}')">
+                <div>${day.dayName}</div>
+                <div style="font-size: 0.7rem;">${day.dayDate}</div>
+            </button>
+        `;
+    });
+    
+    html += `
+                </div>
+            </div>
+            
+            <div id="time-slots-container" style="display: none;">
+                <label style="font-weight: 600; color: var(--primary); font-size: 0.85rem; display: block; margin-bottom: 0.8rem;">Select Time *</label>
+                <div class="time-slot-selector">
+    `;
+    
+    timeSlots.forEach(time => {
+        html += `<button class="time-slot-btn" data-time="${time}" onclick="selectBookingTime(this, '${time}')">${time}</button>`;
+    });
+    
+    html += `
+                </div>
+            </div>
+            
+            <div class="booking-notes">
+                <label>Special Requirements</label>
+                <textarea id="booking-requirements" placeholder="Any special requirements?"></textarea>
+            </div>
+            
+            <div id="booking-summary-container" style="display: none;">
+                <div class="booking-summary">
+                    <div class="summary-item">
+                        <span class="summary-label">📅 Date:</span>
+                        <span class="summary-value" id="summary-date">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">🕐 Time:</span>
+                        <span class="summary-value" id="summary-time">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">👤 Patient:</span>
+                        <span class="summary-value">${patient.name}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="booking-action-buttons">
+                <button class="btn btn-primary" onclick="submitPatientBooking()">
+                    ✅ Confirm Booking
+                </button>
+                <button class="btn btn-secondary" onclick="resetBookingForm()">
+                    🔄 Clear
+                </button>
+            </div>
+        </div>
+    `;
+    
+    container.innerHTML = html;
+}
+
+function selectBookingDay(btn, dateStr) {
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedBookingDate = dateStr;
+    
+    document.getElementById('time-slots-container').style.display = 'block';
+    document.getElementById('booking-summary-container').style.display = 'block';
+    
+    const date = new Date(dateStr);
+    const formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    document.getElementById('summary-date').textContent = formattedDate;
+    
+    selectedBookingTime = null;
+    document.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('selected'));
+}
+
+function selectBookingTime(btn, time) {
+    document.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedBookingTime = time;
+    document.getElementById('summary-time').textContent = time;
+}
+
+async function submitPatientBooking() {
+    if (!currentPatientData) {
+        alert('⚠️ Please select a patient');
+        return;
+    }
+    
+    if (!selectedBookingDate || !selectedBookingTime) {
+        alert('⚠️ Please select date and time');
+        return;
+    }
+    
+    const serviceType = document.getElementById('booking-service-type').value;
+    if (!serviceType) {
+        alert('⚠️ Please select service type');
+        return;
+    }
+    
+    const bookingData = {
+        patientId: currentPatientData.id,
+        patientName: currentPatientData.name,
+        professionalId: 'auto',
+        professionalName: 'To be assigned',
+        serviceType: serviceType,
+        bookingDate: selectedBookingDate,
+        bookingTime: selectedBookingTime,
+        duration: '1 hour',
+        location: currentPatientData.location,
+        notes: document.getElementById('booking-requirements').value,
+        preferredLanguage: 'English',
+        priority: currentPatientData.priority
+    };
+    
+    try {
+        const response = await fetch(`${API_BASE}/bookings/create`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(bookingData)
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+            alert(`✅ Booking confirmed!\n📅 ${selectedBookingDate}\n🕐 ${selectedBookingTime}\n\nBooking ID: ${result.booking.id}`);
+            resetBookingForm();
+            loadPatientAndShowBookingForm(currentPatientData.id);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('❌ Error creating booking');
+    }
+}
+
+function resetBookingForm() {
+    selectedBookingDate = null;
+    selectedBookingTime = null;
+    document.getElementById('booking-service-type').value = '';
+    document.getElementById('booking-requirements').value = '';
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('selected'));
+    document.getElementById('time-slots-container').style.display = 'none';
+    document.getElementById('booking-summary-container').style.display = 'none';
 }
 
 // Console welcome message
@@ -632,7 +871,7 @@ console.log(`
 ║  • Coordinator Dashboard - Real-time schedule overview     ║
 ║  • Supervisor Dashboard - Workload management              ║
 ║  • Professional Dashboard - Personal schedules & routes    ║
-║  • Patient View - Upcoming visits                          ║
+║  • Patient View - Upcoming visits & booking                ║
 ║  • AI Scheduling - Optimized route planning                ║
 ║  • CSV Export - Download schedules                         ║
 ║                                                            ║

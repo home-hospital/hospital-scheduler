@@ -191,6 +191,161 @@ app.get('/api/patient/:patientId', (req, res) => {
   });
 });
 
+// PATIENT BOOKING SYSTEM - API ENDPOINTS
+
+let bookings = {};
+let bookingIdCounter = 1;
+
+// CREATE NEW BOOKING
+app.post('/api/bookings/create', (req, res) => {
+    const { 
+        patientId, patientName, patientPhone, patientEmail,
+        professionalId, professionalName, serviceType,
+        bookingDate, bookingTime, duration, location,
+        notes, preferredLanguage, priority
+    } = req.body;
+
+    if (!patientId || !professionalId || !bookingDate || !bookingTime) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const booking = {
+        id: bookingIdCounter++,
+        patientId, patientName, patientPhone, patientEmail,
+        professionalId, professionalName, serviceType,
+        bookingDate, bookingTime, duration: duration || '1 hour',
+        location, notes, preferredLanguage: preferredLanguage || 'English',
+        priority: priority || 'normal',
+        status: 'pending',
+        createdAt: new Date().toLocaleString(),
+        confirmedAt: null, completedAt: null
+    };
+
+    if (!bookings[patientId]) bookings[patientId] = [];
+    bookings[patientId].push(booking);
+
+    res.json({
+        success: true,
+        message: 'Booking created successfully',
+        booking: booking
+    });
+});
+
+// GET PATIENT BOOKINGS
+app.get('/api/bookings/patient/:patientId', (req, res) => {
+    const patientId = req.params.patientId;
+    const patientBookings = bookings[patientId] || [];
+
+    res.json({
+        patientId: patientId,
+        bookings: patientBookings,
+        total: patientBookings.length
+    });
+});
+
+// GET PROFESSIONAL BOOKINGS
+app.get('/api/bookings/professional/:professionalId', (req, res) => {
+    const professionalId = req.params.professionalId;
+    const profBookings = [];
+
+    for (const patientId in bookings) {
+        const filtered = bookings[patientId].filter(b => b.professionalId === professionalId);
+        profBookings.push(...filtered);
+    }
+
+    res.json({
+        professionalId: professionalId,
+        bookings: profBookings,
+        total: profBookings.length
+    });
+});
+
+// UPDATE BOOKING STATUS
+app.put('/api/bookings/:bookingId', (req, res) => {
+    const bookingId = parseInt(req.params.bookingId);
+    const { status, notes } = req.body;
+
+    for (const patientId in bookings) {
+        const booking = bookings[patientId].find(b => b.id === bookingId);
+        if (booking) {
+            booking.status = status;
+            if (notes) booking.notes = notes;
+            if (status === 'confirmed') booking.confirmedAt = new Date().toLocaleString();
+            if (status === 'completed') booking.completedAt = new Date().toLocaleString();
+
+            return res.json({
+                success: true,
+                message: 'Booking updated successfully',
+                booking: booking
+            });
+        }
+    }
+
+    res.status(404).json({ error: 'Booking not found' });
+});
+
+// CANCEL BOOKING
+app.delete('/api/bookings/:bookingId', (req, res) => {
+    const bookingId = parseInt(req.params.bookingId);
+
+    for (const patientId in bookings) {
+        const index = bookings[patientId].findIndex(b => b.id === bookingId);
+        if (index !== -1) {
+            bookings[patientId].splice(index, 1);
+            return res.json({
+                success: true,
+                message: 'Booking cancelled successfully'
+            });
+        }
+    }
+
+    res.status(404).json({ error: 'Booking not found' });
+});
+
+// GET ALL BOOKINGS
+app.get('/api/bookings', (req, res) => {
+    const allBookings = [];
+    for (const patientId in bookings) {
+        allBookings.push(...bookings[patientId]);
+    }
+
+    res.json({
+        total: allBookings.length,
+        bookings: allBookings
+    });
+});
+
+// GET AVAILABLE TIME SLOTS
+app.get('/api/professionals/:professionalId/availability/:date', (req, res) => {
+    const professionalId = req.params.professionalId;
+    const date = req.params.date;
+
+    const dayBookings = [];
+    for (const patientId in bookings) {
+        const filtered = bookings[patientId].filter(
+            b => b.professionalId === professionalId && b.bookingDate === date
+        );
+        dayBookings.push(...filtered);
+    }
+
+    const bookedTimes = dayBookings.map(b => b.bookingTime);
+    const availableSlots = [];
+
+    for (let hour = 9; hour < 17; hour++) {
+        const time = `${String(hour).padStart(2, '0')}:00`;
+        if (!bookedTimes.includes(time)) {
+            availableSlots.push(time);
+        }
+    }
+
+    res.json({
+        date: date,
+        availableSlots: availableSlots,
+        bookedCount: dayBookings.length
+    });
+});
+
+
 // Run scheduling AI (simulated)
 app.post('/api/run-scheduler', (req, res) => {
   // Simulate AI processing

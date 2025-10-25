@@ -30,7 +30,8 @@
             <!-- COORDINATOR DASHBOARD -->
             <section id="coordinator-view" class="dashboard-view active">
                 <div class="dashboard-header">
-                    <h2>👤 Coordinator Dashboard (Henna)</h2>
+                    <h2> <img src="./helpers/Coordinator.jpg" alt="Henna" class="profile-picture">
+                        Coordinator Dashboard (Henna)</h2>
                     <button id="run-scheduler" class="btn btn-primary">Run AI Scheduler</button>
                 </div>
 
@@ -97,7 +98,8 @@
             <!-- SUPERVISOR DASHBOARD -->
             <section id="supervisor-view" class="dashboard-view">
                 <div class="dashboard-header">
-                    <h2>👥 Supervisor Dashboard (Milja)</h2>
+                    <h2> <img src="./helpers/supervisor.jpg" alt="Henna" class="profile-picture"> 
+                        Supervisor Dashboard (Milja)</h2>
                     <button class="btn btn-secondary" id="manual-adjust">Manual Adjustments</button>
                 </div>
 
@@ -161,7 +163,8 @@
             <!-- PROFESSIONAL DASHBOARD -->
             <section id="professional-view" class="dashboard-view">
                 <div class="dashboard-header">
-                    <h2>👨‍⚕️ Professional Dashboard (Doctors/Nurses)</h2>
+                    <h2> <img src="./helpers/doctor.jpg" alt="Doctor" class="profile-picture">
+                        Professional Dashboard (Doctors/Nurses)</h2>
                 </div>
 
                 <div class="professional-container">
@@ -280,27 +283,40 @@
 
             <!-- PATIENT VIEW -->
             <section id="patient-view" class="dashboard-view">
-                <div class="dashboard-header">
-                    <h2>🩺 Patient View</h2>
-                </div>
+            <div class="dashboard-header">
+                <h2>🏥 Patient Services</h2>
+            </div>
 
-                <div class="patient-container">
+            <div class="patient-main-container">
+                <!-- Left: Patient Selection & Current Visit -->
+                <div class="patient-left-section">
                     <!-- Patient Selector -->
-                    <div class="patient-selector">
-                        <label for="patient-select">Select Patient:</label>
-                        <select id="patient-select">
+                    <div class="patient-selector-card">
+                        <h3>👤 Select Patient</h3>
+                        <select id="patient-select" class="patient-input">
                             <option value="">-- Choose patient --</option>
                         </select>
                     </div>
 
-                    <!-- Patient Card -->
+                    <!-- Upcoming Visit Display -->
                     <div id="patient-card" class="patient-card">
                         <p class="placeholder">Select a patient to view upcoming visits</p>
                     </div>
                 </div>
-            </section>
 
-        </main>
+                <!-- Right: Booking for Upcoming Week -->
+                <div class="patient-right-section">
+                    <div class="booking-appointment-card">
+                        <h3>📅 Book Appointment - Next Week</h3>
+                        
+                        <div id="booking-form-container" class="booking-form-container">
+                            <p class="placeholder">Select a patient to book an appointment</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+                
 
         <!-- Footer -->
         <footer class="footer">
