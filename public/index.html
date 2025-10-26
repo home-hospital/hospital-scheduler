@@ -180,6 +180,17 @@
                     <div class="professional-section">
                         <h3>📋 Upload Availability for Next Week</h3>
                         <div class="availability-form">
+                            <!-- Hidden staff info - auto-filled when staff is selected -->
+                            <div class="form-group" style="display: none;">
+                                <label for="staff-id">Staff ID:</label>
+                                <input type="text" id="staff-id" class="booking-input" readonly>
+                            </div>
+                            
+                            <div class="form-group" style="display: none;">
+                                <label for="staff-name">Staff Name:</label>
+                                <input type="text" id="staff-name" class="booking-input" readonly>
+                            </div>
+
                             <div class="form-group">
                                 <label>Select Days:</label>
                                 <div class="days-selector">
@@ -207,17 +218,17 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="start-time">Start Time:</label>
-                                    <input type="time" id="start-time" value="09:00">
+                                    <input type="time" id="start-time" value="09:00" class="booking-input">
                                 </div>
                                 <div class="form-group">
                                     <label for="end-time">End Time:</label>
-                                    <input type="time" id="end-time" value="17:00">
+                                    <input type="time" id="end-time" value="17:00" class="booking-input">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="max-hours">Max Hours per Day:</label>
-                                <input type="number" id="max-hours" value="8" min="1" max="12">
+                                <input type="number" id="max-hours" value="8" min="1" max="12" class="booking-input">
                             </div>
 
                             <div class="form-group">
@@ -237,12 +248,12 @@
 
                             <div class="form-group">
                                 <label for="notes">Additional Notes:</label>
-                                <textarea id="notes" placeholder="Any special requirements or preferences..." rows="3"></textarea>
+                                <textarea id="notes" placeholder="Any special requirements or preferences..." rows="3" class="booking-input"></textarea>
                             </div>
 
                             <div class="form-actions">
                                 <button class="btn btn-primary" id="submit-availability">✅ Submit Availability</button>
-                                <button class="btn btn-secondary" id="clear-form">🔄 Clear Form</button>
+                                <button class="btn btn-secondary" id="clear-form" type="button">🔄 Clear Form</button>
                             </div>
                         </div>
                     </div>
