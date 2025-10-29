@@ -214,13 +214,27 @@ function renderProfessionalDashboard(data) {
         patientDetailsDiv.innerHTML = '<p class="placeholder">No patient details available</p>';
     } else {
         data.schedule.forEach(item => {
+            const patient = appState.patients.find(p => p.id === item.patientId);
+    
+            
+            const latitude = patient ? patient.latitude : undefined;
+            const longitude = patient ? patient.longitude : undefined;
+            
+            const mapUrl = getGoogleMapsUrlFromCoords(latitude, longitude);
+            console.log('Generated map URL:', mapUrl);
+            
             const detailCard = document.createElement('div');
             detailCard.className = 'patient-detail-card';
             detailCard.innerHTML = `
                 <div class="patient-detail-name">${item.patientName}</div>
                 <div class="patient-detail-info">
                     <div><strong>Care Type:</strong> ${item.careType}</div>
-                    <div><strong>Location:</strong> ${item.address}</div>
+                    <div>
+                        <strong>Location:</strong>
+                        <a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="location-link">
+                            📍 ${item.address || 'Unknown'}
+                        </a>
+                    </div>
                     <div><strong>Time:</strong> ${item.time}</div>
                     <div><strong>Duration:</strong> ${item.duration} minutes</div>
                 </div>
@@ -876,3 +890,12 @@ function exportSchedule() {
         alert('Error exporting schedule');
     }
 }
+
+
+//For Google maps
+function getGoogleMapsUrlFromCoords(lat, lon) {
+    return `https://www.google.com/maps?q=${lat},${lon}`;
+}
+
+
+

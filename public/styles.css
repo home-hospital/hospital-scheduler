@@ -1782,3 +1782,23 @@ input[type="time"].booking-input::-webkit-calendar-picker-indicator {
 .p-1 { padding: 0.5rem; }
 .p-2 { padding: 1rem; }
 .p-3 { padding: 1.5rem; }
+
+.location-link {
+    color: #0066cc;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+}
+
+.location-link:hover {
+    color: #0052a3;
+    text-decoration: underline;
+}
+
+.location-link:active {
+    color: #003d7a;
+}

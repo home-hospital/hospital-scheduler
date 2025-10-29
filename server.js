@@ -21,11 +21,11 @@ const mockStaff = [
 ];
 
 const mockPatients = [
-  { id: 101, name: 'A. Marika', careNeeds: ['Palliative'], location: 'Oulu', address: 'Isokatu 1', preferredTime: 'Morning', priority: 'Urgent' },
-  { id: 102, name: 'T. Vikke', careNeeds: ['Infection'], location: 'Oulu', address: 'Kalervantie 2', preferredTime: 'Afternoon', priority: 'Normal' },
-  { id: 103, name: 'T. Mäki', careNeeds: ['Acute'], location: 'Kiiminki', address: 'Kivitie 5', preferredTime: 'Morning', priority: 'Normal' },
-  { id: 104, name: 'Laouri', careNeeds: ['Palliative'], location: 'Kempale', address: 'Kauppakuja 8', preferredTime: 'Afternoon', priority: 'Normal' },
-  { id: 105, name: 'P. Laine', careNeeds: ['Geriatrics', 'Palliative'], location: 'Oulu', address: 'Puistokatu 3', preferredTime: 'Morning', priority: 'Urgent' },
+  { id: 101, name: 'A. Marika', careNeeds: ['Palliative'], location: 'Oulu', address: 'Isokatu 1',latitude:65.01585,longitude:25.47898, preferredTime: 'Morning', priority: 'Urgent' },
+  { id: 102, name: 'T. Vikke', careNeeds: ['Infection'], location: 'Oulu', address: 'Kalervantie 2',latitude:65.06318,longitude:25.48467, preferredTime: 'Afternoon', priority: 'Normal' },
+  { id: 103, name: 'T. Mäki', careNeeds: ['Acute'], location: 'Kiiminki', address: 'Kivitie 5',latitude:65.21678,longitude:25.32988, preferredTime: 'Morning', priority: 'Normal' },
+  { id: 104, name: 'Laouri', careNeeds: ['Palliative'], location: 'Kempale', address: 'Kauppakuja 8',latitude:64.92385,longitude:25.50677, preferredTime: 'Afternoon', priority: 'Normal' },
+  { id: 105, name: 'P. Laine', careNeeds: ['Geriatrics', 'Palliative'], location: 'Oulu', address: 'Puistokatu 3',latitude:65.00808,longitude:25.44903, preferredTime: 'Morning', priority: 'Urgent' },
 ];
 
 const mockSchedule = generateOptimizedSchedule();
