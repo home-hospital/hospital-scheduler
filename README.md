@@ -232,8 +232,13 @@ http://localhost:3000
 - Server running message: "🏥 Hospital Scheduler Demo running on http://localhost:3000"
 - Frontend loads automatically
 - All 4 dashboards working
+![Coordinator Dashboard](public/helpers/CoodinatorSr.jpg)
+![Supervisor Dashboard](public/helpers/SupervisorSr.jpg)
+![Professional Dashboard](public/helpers/ProfessionalSr.jpg)
+![Patient Dashboard](public/helpers/PatientSr.jpg)
 - API endpoints responding
 - Google Maps integration working
+![Location of the patient](public/helpers/Maps.jpg)
 
 ---
 
