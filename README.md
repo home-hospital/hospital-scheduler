@@ -4,6 +4,8 @@
 >
 > A responsive, interactive healthcare scheduling system with Node.js/Express backend, REST API endpoints, and real Google Maps integration. Perfect for demonstrations, portfolio showcase, and understanding full-stack development.
 
+🔗 **[View on GitHub](https://github.com/home-hospital/hospital-scheduler.git)**
+
 ![Stack](https://img.shields.io/badge/Stack-Full%20Stack-blue) ![Backend](https://img.shields.io/badge/Backend-Express.js-green) ![Status](https://img.shields.io/badge/Status-Prototype-brightgreen) ![Version](https://img.shields.io/badge/Version-1.0.0-orange)
 
 ---
