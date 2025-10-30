@@ -1,102 +1,204 @@
 # 🏥 Hospital Scheduler
 
-> **AI-Powered Healthcare Scheduling Platform**
+> **Full-Stack Interactive Prototype with Backend API**
+>
+> A responsive, interactive healthcare scheduling system with Node.js/Express backend, REST API endpoints, and real Google Maps integration. Perfect for demonstrations, portfolio showcase, and understanding full-stack development.
 
-[![Status](https://img.shields.io/badge/Status-Active-brightgreen)](https://github.com)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue)](https://github.com)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-[![Demo](https://img.shields.io/badge/Demo-Available-orange)](https://demo.hospitalscheduler.com)
-
-An intelligent healthcare scheduling system that uses AI to optimize staff allocation, manage patient appointments, and improve healthcare operations through intelligent matching, route optimization, and real-time workload monitoring.
+![Stack](https://img.shields.io/badge/Stack-Full%20Stack-blue) ![Backend](https://img.shields.io/badge/Backend-Express.js-green) ![Status](https://img.shields.io/badge/Status-Prototype-brightgreen) ![Version](https://img.shields.io/badge/Version-1.0.0-orange)
 
 ---
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Key Features](#key-features)
+- [What This Is](#what-this-is)
+- [What's Included](#whats-included)
+- [What's NOT Included](#whats-not-included)
+- [Architecture](#architecture)
 - [Quick Start](#quick-start)
-- [System Architecture](#system-architecture)
-- [User Roles](#user-roles)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage Guide](#usage-guide)
+- [Backend API](#backend-api)
+- [Running the Application](#running-the-application)
+- [API Endpoints](#api-endpoints)
 - [Technologies](#technologies)
 - [File Structure](#file-structure)
-- [Performance Metrics](#performance-metrics)
+- [Demo Data](#demo-data)
 - [Video Demo](#video-demo)
+- [Perfect For](#perfect-for)
+- [Roadmap](#roadmap)
 - [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [Support](#support)
 - [License](#license)
 
 ---
 
-## 🎯 Overview
+## 🎯 What This Is
 
-Hospital Scheduler solves critical challenges in healthcare operations:
+Hospital Scheduler is a **full-stack prototype** that demonstrates a complete healthcare scheduling system with:
 
-### Problems Solved
+### Frontend ✅
+- Interactive UI with 4 dashboards
+- Google Maps API integration
+- Responsive design
 
-| Problem | Solution |
-|---------|----------|
-| **5+ hours daily on manual scheduling** | AI generates optimal schedules in seconds |
-| **Staff arriving at wrong addresses** | Google Maps integration with exact pins |
-| **Unequal workload distribution** | Real-time workload monitoring & balancing |
-| **Slow appointment booking** | Patient self-service booking in minutes |
-| **No team visibility** | Real-time supervisor dashboard |
+### Backend ✅
+- Node.js/Express server
+- REST API with 20+ endpoints
+- Booking management system
+- Availability management system
+- In-memory data storage
 
-### Impact
-
-- 📊 **80% reduction** in scheduling time
-- 🚗 **Optimized routes** save fuel and travel time
-- 😊 **Reduced burnout** through fair workload distribution
-- ⏱️ **Faster appointments** for patients
-- 👥 **4 role types** supported (Coordinator, Professional, Patient, Supervisor)
+### Purpose
+- 🎬 Presentations and pitches
+- 🎨 Portfolio showcase
+- 👥 Client demonstrations
+- 📚 Learning full-stack development
+- 🎓 Understanding system architecture
 
 ---
 
-## ✨ Key Features
+## ✅ What's Included
 
-### 🤖 AI-Powered Scheduling
+### Frontend Features ✅
+- **4 Complete Dashboards**
+  - Coordinator Dashboard (schedule & capacity)
+  - Professional Dashboard (personal schedule & navigation)
+  - Patient Dashboard (appointment booking)
+  - Supervisor Dashboard (workload monitoring)
+
+- **Google Maps Integration** (REAL!)
+  - Click any address to open Google Maps
+  - Real location pins with exact coordinates
+  - Actual Oulu city locations
+
+- **Responsive Design**
+  - Works on desktop, tablet, mobile
+  - Touch-friendly interface
+  - Professional styling
+
+### Backend Features ✅
+- **Express.js Server**
+  - Runs on http://localhost:3000
+  - CORS enabled
+  - Body parser middleware
+  - Static file serving
+
+- **REST API Endpoints** (20+)
+  - Coordinator API
+  - Supervisor API
+  - Professional API
+  - Patient API
+  - Availability management (full CRUD)
+  - Booking management (full CRUD)
+  - Scheduler endpoint
+  - Export functionality
+
+- **Data Management**
+  - Mock staff data (5 professionals)
+  - Mock patient data (5 patients with real Oulu coordinates)
+  - Availability tracking
+  - Booking tracking
+  - Schedule generation
+
+- **Functional Systems**
+  - Complete booking workflow
+  - Availability submission system
+  - CSV export feature
+  - Health check endpoint
+
+---
+
+## ❌ What's NOT Included
+
+### Database
 ```
-✓ Intelligent matching algorithm
-✓ Considers qualifications & licenses
-✓ Respects availability constraints
-✓ Optimizes for location & travel time
-✓ One-click schedule generation
+✗ No SQL database (PostgreSQL/MySQL)
+✗ Data stored in-memory (JavaScript objects)
+✗ Data lost when server restarts
+✗ Perfect for demo, not for production
 ```
 
-### 🗺️ Google Maps Integration
+### AI & Algorithms
 ```
-✓ Click any address to open Maps
-✓ Exact location with pin markers
-✓ Turn-by-turn navigation
-✓ Route optimization
-✓ Travel time calculation
-```
-
-### 📊 Real-Time Workload Monitoring
-```
-✓ Live workload visualization
-✓ Team utilization charts
-✓ Capacity monitoring
-✓ Burnout prevention alerts
-✓ Fair load distribution
+✗ No real AI scheduling algorithm
+✗ No intelligent staff-patient matching
+✗ Schedule generation is simulated
+✗ Route optimization is basic
 ```
 
-### 👥 4 Complete Dashboards
-- **Coordinator Dashboard** - Schedule management
-- **Professional Dashboard** - Personal schedules with navigation
-- **Patient Dashboard** - Appointment booking
-- **Supervisor Dashboard** - Team monitoring
-
-### 📱 Responsive Design
+### Authentication & Security
 ```
-✓ Works on desktop, tablet, mobile
-✓ Touch-friendly interface
-✓ Fast loading times
-✓ Accessible design
+✗ No user login system
+✗ No password authentication
+✗ No JWT tokens or sessions
+✗ No role-based access control
+✗ Everyone sees same demo data
+```
+
+### Advanced Features
+```
+✗ No real-time updates (WebSockets)
+✗ No file uploads
+✗ No email notifications
+✗ No SMS notifications
+✗ No data persistence across restarts
+```
+
+---
+
+## 🏗️ Architecture
+
+### Current Architecture (Full-Stack Prototype)
+
+```
+┌─────────────────────────────────────┐
+│     Frontend (Client Layer)         │
+│  • HTML5, CSS3, JavaScript          │
+│  • 4 Interactive Dashboards         │
+│  • Google Maps API                  │
+│  • Responsive UI                    │
+└────────────────┬────────────────────┘
+                 │
+        ┌────────▼────────┐
+        │   REST API      │
+        │   20+ Endpoints │
+        │   (Express.js)  │
+        └────────┬────────┘
+                 │
+┌────────────────▼────────────────────┐
+│  Backend (Node.js/Express)          │
+│  • API routing                      │
+│  • Business logic                   │
+│  • Mock data generation             │
+│  • Availability handling            │
+│  • Booking management               │
+│  • Schedule processing              │
+└────────────────┬────────────────────┘
+                 │
+┌────────────────▼────────────────────┐
+│     Data Layer (In-Memory)          │
+│  • mockStaff (5 professionals)      │
+│  • mockPatients (5 with real coords)│
+│  • mockSchedule (generated)         │
+│  • staffAvailability (object)       │
+│  • bookings (object)                │
+│  • Resets on server restart         │
+└─────────────────────────────────────┘
+```
+
+### Production Architecture (Future)
+
+To make this production-ready, add:
+
+```
+Frontend
+   ↓
+Backend (Node.js/Express)
+   ↓
+Database (PostgreSQL/MySQL)
+   ↓
+Real AI Engine
+   ↓
+Authentication Service
+   ↓
+Notification Service
 ```
 
 ---
@@ -104,275 +206,288 @@ Hospital Scheduler solves critical challenges in healthcare operations:
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js v14+
-- npm or yarn
-- Google Maps API Key
+- Node.js v14+ (for backend)
+- npm (package manager)
 - Modern web browser
+- Internet connection (for Google Maps)
 
-### 5-Minute Setup
+### 2-Minute Setup
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/yourname/hospital-scheduler.git
-cd hospital-scheduler
-
-# 2. Install dependencies
+# 1. Install dependencies
 npm install
 
-# 3. Setup environment
-cp .env.example .env
-# Edit .env with your Google Maps API key
+# 2. Start the server
+node server.js
 
-# 4. Start development server
-npm start
-
-# 5. Open browser
-# Visit: http://localhost:3000
-```
-
-### Demo Login Credentials
-
-```
-Coordinator:
-  Email: coordinator@hospital.com
-  Password: Demo@123
-
-Professional:
-  Email: professional@hospital.com
-  Password: Demo@123
-
-Patient:
-  Email: patient@hospital.com
-  Password: Demo@123
-
-Supervisor:
-  Email: supervisor@hospital.com
-  Password: Demo@123
-```
-
----
-
-## 🏗️ System Architecture
-
-```
-┌─────────────────────────────────────┐
-│     Frontend (Client Layer)         │
-│  • HTML5, CSS3, JavaScript          │
-│  • Responsive UI Components         │
-│  • Real-time Updates                │
-└────────────────┬────────────────────┘
-                 │
-        ┌────────▼────────┐
-        │   REST API      │
-        │   Endpoints     │
-        └────────┬────────┘
-                 │
-┌────────────────▼────────────────────┐
-│  Backend (Business Logic)           │
-│  • Node.js/Express                  │
-│  • AI Scheduling Algorithm          │
-│  • Route Optimization               │
-│  • Data Processing                  │
-└────────────────┬────────────────────┘
-                 │
-┌────────────────▼────────────────────┐
-│  Data Layer & Services              │
-│  • Database (SQL)                   │
-│  • Google Maps API                  │
-│  • Authentication                   │
-│  • File Storage                     │
-└─────────────────────────────────────┘
-```
-
----
-
-## 👥 User Roles
-
-### 1️⃣ Coordinator 👨‍💼
-**Schedule Manager**
-- Create and manage schedules
-- Run AI Scheduler
-- View schedule capacity
-- Monitor staff assignments
-- **Key Feature:** One-click AI optimization
-
-### 2️⃣ Healthcare Professional 👨‍⚕️
-**Service Provider**
-- View personalized schedule
-- Check patient information
-- Navigate using Google Maps
-- Manage availability
-- **Key Feature:** Optimized routes with navigation
-
-### 3️⃣ Patient 👥
-**Service Consumer**
-- Book appointments
-- Track visit history
-- Select professionals
-- Choose service type
-- **Key Feature:** Fast self-service booking
-
-### 4️⃣ Supervisor 👨‍💼
-**Team Monitor**
-- Monitor workload
-- View team utilization
-- Check capacity
-- Prevent burnout
-- **Key Feature:** Real-time analytics
-
----
-
-## 💻 Installation
-
-### Full Installation Guide
-
-#### Step 1: Clone Repository
-```bash
-git clone https://github.com/yourname/hospital-scheduler.git
-cd hospital-scheduler
-```
-
-#### Step 2: Install Dependencies
-```bash
-npm install
-```
-
-#### Step 3: Environment Setup
-```bash
-cp .env.example .env
-
-# Edit .env file with:
-GOOGLE_MAPS_API_KEY=your_api_key_here
-DATABASE_URL=your_database_url
-JWT_SECRET=your_secret_key
-```
-
-#### Step 4: Initialize Database
-```bash
-npm run db:init
-npm run db:seed
-```
-
-#### Step 5: Get Google Maps API Key
-1. Go to https://cloud.google.com/maps-platform
-2. Create new API key
-3. Enable these APIs:
-   - Maps JavaScript API
-   - Places API
-   - Directions API
-4. Add key to `.env`
-
-#### Step 6: Start Application
-```bash
-# Development
-npm run dev
-
-# Production
-npm start
-```
-
-#### Step 7: Access Application
-```
+# 3. Open in browser
 http://localhost:3000
+
+# 4. Choose dashboard and explore!
+```
+
+### What You'll See
+- Server running message: "🏥 Hospital Scheduler Demo running on http://localhost:3000"
+- Frontend loads automatically
+- All 4 dashboards working
+- API endpoints responding
+- Google Maps integration working
+
+---
+
+## 📡 Backend API
+
+### API Base URL
+```
+http://localhost:3000/api
+```
+
+### Available Endpoints
+
+#### Coordinator
+```
+GET /api/coordinator
+  → Returns staff, patients, schedule, capacity
+```
+
+#### Supervisor
+```
+GET /api/supervisor
+  → Returns workload, schedule, team metrics
+```
+
+#### Professional
+```
+GET /api/professional/:staffId
+  → Returns personal schedule and route
+```
+
+#### Patient
+```
+GET /api/patient/:patientId
+  → Returns patient info and upcoming visits
+```
+
+#### Availability Management
+```
+POST /api/availability/submit
+  → Submit availability (days, hours, coverage)
+
+GET /api/availability/:staffId
+  → Get staff availability submissions
+
+GET /api/availability
+  → Get all availability submissions
+
+DELETE /api/availability/:staffId/:submissionId
+  → Delete availability submission
+```
+
+#### Booking Management (Full CRUD)
+```
+POST /api/bookings/create
+  → Create new appointment booking
+
+GET /api/bookings
+  → Get all bookings
+
+GET /api/bookings/patient/:patientId
+  → Get patient's bookings
+
+GET /api/bookings/professional/:professionalId
+  → Get professional's bookings
+
+PUT /api/bookings/:bookingId
+  → Update booking status
+
+DELETE /api/bookings/:bookingId
+  → Cancel booking
+
+GET /api/professionals/:professionalId/availability/:date
+  → Get available time slots for professional on date
+```
+
+#### Scheduler
+```
+POST /api/run-scheduler
+  → Run schedule optimization (simulated AI)
+```
+
+#### Export
+```
+GET /api/export-schedule
+  → Download schedule as CSV file
+```
+
+#### Health Check
+```
+GET /api/health
+  → Check if server is running
 ```
 
 ---
 
-## ⚙️ Configuration
+## ▶️ Running the Application
 
-### Environment Variables (.env)
+### Development Mode
 
-```env
-# Server
-PORT=3000
-NODE_ENV=development
+```bash
+# With auto-restart on file changes (requires nodemon)
+npm install -g nodemon
+nodemon server.js
 
-# Database
-DATABASE_URL=postgresql://user:pass@localhost:5432/hospital_scheduler
-
-# Google Maps
-GOOGLE_MAPS_API_KEY=your_api_key
-
-# Authentication
-JWT_SECRET=your_jwt_secret
-JWT_EXPIRY=24h
-
-# Features
-ENABLE_AI_SCHEDULING=true
-ENABLE_GOOGLE_MAPS=true
-ENABLE_NOTIFICATIONS=true
+# Standard mode
+node server.js
 ```
 
-### Feature Configuration
+### Access Points
+```
+Frontend:       http://localhost:3000
+API:            http://localhost:3000/api/*
+Health Check:   http://localhost:3000/api/health
+```
 
-Edit `config/settings.js`:
+### Testing Endpoints
+
+#### Using curl
+```bash
+# Get coordinator data
+curl http://localhost:3000/api/coordinator
+
+# Get supervisor data
+curl http://localhost:3000/api/supervisor
+
+# Get professional schedule
+curl http://localhost:3000/api/professional/1
+
+# Get patient info
+curl http://localhost:3000/api/patient/101
+```
+
+#### Using Postman
+1. Import collection (optional)
+2. Create requests for each endpoint
+3. Test GET, POST, PUT, DELETE operations
+
+#### Using Browser
+```
+http://localhost:3000/api/coordinator
+http://localhost:3000/api/supervisor
+http://localhost:3000/api/professional/1
+```
+
+---
+
+## 📊 API Endpoints Details
+
+### 1. Availability Management
+
+**Submit Availability**
 ```javascript
-module.exports = {
-  scheduling: {
-    maxHoursPerDay: 8,
-    minBreakMinutes: 30,
-    travelTimeBuffer: 15
-  },
-  routing: {
-    algorithm: 'nearest-neighbor',
-    optimizeFor: 'time'
+POST /api/availability/submit
+
+Request:
+{
+  staffId: 1,
+  staffName: "Dr. Pekka",
+  days: ["Monday", "Tuesday", "Wednesday"],
+  startTime: "09:00",
+  endTime: "17:00",
+  maxHours: 8,
+  coverageAreas: ["Oulu", "Kempale"],
+  notes: "Available for all care types"
+}
+
+Response:
+{
+  success: true,
+  submission: {
+    id: 1699000000000,
+    staffId: 1,
+    staffName: "Dr. Pekka",
+    submittedAt: "10/30/2025, 14:23:45",
+    ...
   }
-};
+}
 ```
 
----
+### 2. Booking Management
 
-## 📖 Usage Guide
+**Create Booking**
+```javascript
+POST /api/bookings/create
 
-### For Coordinators
+Request:
+{
+  patientId: 101,
+  patientName: "A. Marika",
+  patientPhone: "+358-xxx-xxxx",
+  patientEmail: "patient@example.com",
+  professionalId: 1,
+  professionalName: "Dr. Pekka",
+  serviceType: "Palliative Care",
+  bookingDate: "2025-11-05",
+  bookingTime: "09:00",
+  duration: "1 hour",
+  location: "Oulu",
+  notes: "Regular home visit",
+  priority: "normal"
+}
 
-1. **Login** to Coordinator Dashboard
-2. **View Schedule** - See all assignments
-3. **Run AI Scheduler**
-   - Click "Run AI Scheduler" button
-   - Select date range
-   - Click "Optimize"
-   - System generates optimal schedule
-4. **View Results** in schedule table
-5. **Make adjustments** if needed
-6. **Publish** schedule
+Response:
+{
+  success: true,
+  booking: {
+    id: 1,
+    status: "pending",
+    createdAt: "10/30/2025, 14:23:45",
+    confirmedAt: null,
+    completedAt: null,
+    ...
+  }
+}
+```
 
-### For Healthcare Professionals
+**Get Available Slots**
+```javascript
+GET /api/professionals/1/availability/2025-11-05
 
-1. **Login** to Professional Dashboard
-2. **View Your Schedule** for today/this week
-3. **Check Route Order** - Optimized visit sequence
-4. **Click Location Link** 📍
-   - Google Maps opens
-   - Shows exact address with pin
-   - Get turn-by-turn directions
-5. **View Patient Details** before visit
-6. **Update Availability** in settings
+Response:
+{
+  date: "2025-11-05",
+  availableSlots: ["09:00", "10:00", "11:00", "13:00", "14:00"],
+  bookedCount: 3
+}
+```
 
-### For Patients
+### 3. Scheduler
 
-1. **Login** to Patient Dashboard
-2. **View Upcoming Appointments**
-3. **Book New Appointment**
-   - Select healthcare professional
-   - Choose service type
-   - Pick date and time
-   - Submit booking
-4. **Get Confirmation** immediately
-5. **Receive Notifications** about appointment
+**Run Scheduler**
+```javascript
+POST /api/run-scheduler
 
-### For Supervisors
-
-1. **Login** to Supervisor Dashboard
-2. **View Workload Chart**
-   - See team utilization
-   - Check capacity percentages
-3. **Monitor Team**
-   - Identify overbooked staff
-   - See available capacity
-4. **Analyze Performance**
-   - View scheduling efficiency
-   - Check average workload
+Response (after ~1.5 seconds):
+{
+  success: true,
+  schedule: [
+    {
+      staffId: 1,
+      staffName: "Dr. Pekka",
+      patientId: 101,
+      patientName: "A. Marika",
+      careType: "Palliative",
+      time: "09:00",
+      location: "Oulu",
+      address: "Isokatu 1",
+      duration: 45,
+      travelTime: 15,
+      status: "Scheduled"
+    },
+    ...
+  ],
+  message: "Schedule optimized successfully"
+}
+```
 
 ---
 
@@ -380,26 +495,22 @@ module.exports = {
 
 ### Frontend
 - **HTML5** - Structure
-- **CSS3** - Styling & Responsive Design
-- **JavaScript (ES6+)** - Interactivity
-- **Google Maps API** - Location services
+- **CSS3** - Styling & responsive design
+- **JavaScript (ES6+)** - Interactivity & UI logic
+- **Google Maps API** - Real map integration
 
 ### Backend
-- **Node.js** - Runtime
+- **Node.js** - JavaScript runtime
 - **Express.js** - Web framework
-- **Database** - SQL (PostgreSQL/MySQL)
-- **Authentication** - JWT
+- **CORS** - Cross-origin requests
+- **Body-parser** - JSON parsing
 
-### Third-Party Services
-- **Google Maps API** - Navigation & Location
-- **Email Service** - Notifications
-- **Cloud Storage** - File management
+### Data Storage
+- **In-Memory JavaScript Objects** - Temporary storage
+- **Mock Data** - Simulated real data
 
-### Development Tools
-- **Git** - Version control
-- **npm/yarn** - Package management
-- **VS Code** - Editor
-- **Postman** - API testing
+### APIs Used
+- **Google Maps JavaScript API** - Location services
 
 ---
 
@@ -407,284 +518,284 @@ module.exports = {
 
 ```
 hospital-scheduler/
+│
+├── index.html              ← Main frontend file
+│
 ├── public/
 │   ├── css/
-│   │   └── styles.css
-│   ├── js/
-│   │   ├── app.js
-│   │   ├── scheduler.js
-│   │   └── maps.js
-│   └── index.html
-├── src/
-│   ├── api/
-│   │   ├── routes.js
-│   │   └── handlers.js
-│   ├── models/
-│   │   ├── staff.js
-│   │   ├── patient.js
-│   │   └── schedule.js
-│   ├── controllers/
-│   │   └── schedulerController.js
-│   └── services/
-│       ├── aiScheduler.js
-│       └── googleMapsService.js
-├── config/
-│   └── settings.js
-├── .env.example
-├── .gitignore
-├── package.json
-├── README.md
-└── server.js
+│   │   └── styles.css      ← All styling
+│   │
+│   └── js/
+│       ├── app.js          ← Frontend application
+│       └── maps.js         ← Google Maps integration
+│
+├── server.js               ← Backend (Express.js)
+│
+├── package.json            ← Dependencies
+├── README.md               ← Documentation
+└── .gitignore
 ```
+
+### File Descriptions
+
+**server.js** - Backend server
+- Express.js setup
+- CORS and middleware
+- 20+ API endpoints
+- Mock data definition
+- In-memory storage
+- Scheduler logic
+
+**index.html** - Frontend HTML
+- 4 dashboard sections
+- Navigation elements
+- Forms for input
+- Layout structure
+
+**app.js** - Frontend JavaScript
+- Dashboard switching
+- Demo data (appState)
+- Form handling
+- UI state management
+
+**styles.css** - Frontend Styling
+- Responsive design
+- Dashboard styles
+- Form styling
+- Mobile optimization
+
+**maps.js** - Google Maps Integration
+- Map initialization
+- Pin placement
+- Location handling
 
 ---
 
-## 📊 Performance Metrics
+## 📊 Mock Data
 
-### Scheduling Performance
-- **Schedule Generation:** < 5 seconds
-- **Route Optimization:** < 3 seconds
-- **API Response Time:** < 200ms
-- **Database Query:** < 100ms
+### Staff (5 professionals)
+```javascript
+[
+  { id: 1, name: 'Dr. Pekka', role: 'Doctor', expertise: ['Palliative', 'Infection'] },
+  { id: 2, name: 'Dr. Teemu', role: 'Doctor', expertise: ['Acute', 'Geriatrics'] },
+  { id: 3, name: 'Nurse Nuura', role: 'Nurse', expertise: ['Infection', 'Palliative'] },
+  { id: 4, name: 'Nurse Anne', role: 'Nurse', expertise: ['Palliative', 'Geriatrics'] },
+  { id: 5, name: 'Nurse Sanna', role: 'Nurse', expertise: ['Acute'] }
+]
+```
 
-### System Capacity
-- **Concurrent Users:** 1,000+
-- **Appointments/Day:** 10,000+
-- **Healthcare Staff:** 5,000+
-- **Patients:** 50,000+
+### Patients (5 with real Oulu coordinates)
+```javascript
+[
+  { id: 101, name: 'A. Marika', location: 'Oulu', latitude: 65.01585, longitude: 25.47898 },
+  { id: 102, name: 'T. Vikke', location: 'Oulu', latitude: 65.06318, longitude: 25.48467 },
+  { id: 103, name: 'T. Mäki', location: 'Kiiminki', latitude: 65.21678, longitude: 25.32988 },
+  { id: 104, name: 'Laouri', location: 'Kempale', latitude: 64.92385, longitude: 25.50677 },
+  { id: 105, name: 'P. Laine', location: 'Oulu', latitude: 65.00808, longitude: 25.44903 }
+]
+```
 
-### Optimization Results
-- **Time Savings:** 80% on scheduling
-- **Travel Time Reduction:** 30-40%
-- **Fuel Cost Savings:** 25-35%
-- **Schedule Adherence:** 95%+
+### Locations
+- Real Oulu city coordinates
+- Actual Finnish place names
+- Realistic healthcare scenarios
 
 ---
 
 ## 🎬 Video Demo
 
-### 5-Minute Demo Video
+### 5-Minute Demo Available
 
-Watch a complete walkthrough:
+Shows all features in action:
+- Coordinator Dashboard
+- Professional Dashboard with Google Maps
+- Patient Dashboard & booking
+- Supervisor Dashboard
 
-🎥 **[Watch on YouTube](#)**
+---
 
-**What's Covered:**
-- 0:20 - Coordinator Dashboard & AI Scheduler
-- 1:10 - Professional Dashboard with Google Maps
-- 2:30 - Patient Booking System
-- 3:15 - Supervisor Workload Monitoring
+## 🎯 Perfect For
 
-**YouTube Description Files:**
-- `/outputs/YOUTUBE_VIDEO_DESCRIPTIONS.md` - 7 different descriptions
-- `/outputs/BEST_YOUTUBE_DESCRIPTION.txt` - Recommended version
-- `/outputs/SCRIPT_5_MIN_WITH_PATIENT.md` - Full video script
+### ✅ Presentations & Pitches
+- Show working prototype
+- Demonstrate concept
+- Get stakeholder feedback
+
+### ✅ Portfolio
+- Show full-stack skills
+- Demonstrate backend API knowledge
+- Show frontend integration
+
+### ✅ Learning
+- Understand full-stack architecture
+- Learn Express.js basics
+- Learn frontend-backend integration
+- Study API design
+
+### ✅ Client Demos
+- Show working functionality
+- Demonstrate workflows
+- Get design feedback
+
+---
+
+## 🚀 Roadmap - Future Development
+
+### Phase 1: Database Integration (Essential)
+- Add PostgreSQL/MySQL
+- Migrate in-memory data to database
+- Add persistence
+- Estimated: 40-80 hours
+
+### Phase 2: Real AI (Important)
+- Implement real scheduling algorithm
+- Add route optimization
+- Intelligent matching logic
+- Estimated: 100-200 hours
+
+### Phase 3: Authentication (Essential)
+- User login system
+- Password hashing
+- JWT tokens
+- Role-based access
+- Estimated: 30-50 hours
+
+### Phase 4: Advanced Features (Nice to Have)
+- Real-time updates (WebSockets)
+- Email/SMS notifications
+- Mobile app
+- Advanced analytics
+- Estimated: 100+ hours
+
+### Total for Production
+**Estimated: 300-500+ hours of development**
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Common Issues & Solutions
+### Server Won't Start
 
-#### Issue: "Google Maps not loading"
-```
-Solution:
-1. Check API key in .env
-2. Verify API is enabled in Google Cloud
-3. Check CORS settings
-4. Clear browser cache
-```
+**Error:** "Port 3000 already in use"
 
-#### Issue: "Database connection error"
-```
-Solution:
-1. Verify DATABASE_URL in .env
-2. Check database is running
-3. Verify credentials
-4. Check network connectivity
-```
-
-#### Issue: "AI Scheduler times out"
-```
-Solution:
-1. Check server logs
-2. Verify data integrity
-3. Reduce dataset size
-4. Check system resources
-```
-
-#### Issue: "Login not working"
-```
-Solution:
-1. Clear browser cookies
-2. Verify user exists in database
-3. Check JWT_SECRET in .env
-4. Verify email/password combination
-```
-
-### Debug Mode
-
-Enable detailed logging:
+**Solution:**
 ```bash
-NODE_ENV=development npm run dev -- --verbose
+# Use different port
+PORT=3001 node server.js
+
+# Or kill existing process
+# On Windows: netstat -ano | findstr :3000
+# On Mac/Linux: lsof -i :3000
 ```
 
-View logs:
-```bash
-tail -f logs/app.log
-```
+### Google Maps Not Showing
+
+**Solution:**
+1. Check internet connection
+2. Clear browser cache
+3. Check API key (if using custom)
+4. Try different browser
+
+### API Endpoints Not Responding
+
+**Solution:**
+1. Verify server is running
+2. Check terminal for errors
+3. Verify port 3000 is open
+4. Try health check: http://localhost:3000/api/health
+
+### Data Lost After Restart
+
+**Expected Behavior:** This is intentional!
+
+Data is stored in server memory (JavaScript objects) and resets when server restarts. This is because:
+- ✓ No database to save to
+- ✓ It's a prototype
+- ✓ Shows the concept
+
+To make data persistent, add a real database.
+
+### Forms Not Saving
+
+**Expected Behavior:** Demo only!
+
+Forms demonstrate the interface. In production, they would:
+- Save to database
+- Send confirmations
+- Create actual records
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! Here's how:
-
-### 1. Fork Repository
-```bash
-git clone https://github.com/yourname/hospital-scheduler.git
-```
-
-### 2. Create Feature Branch
-```bash
-git checkout -b feature/your-feature-name
-```
-
-### 3. Make Changes
-- Write clean, documented code
-- Follow existing code style
-- Add comments for complex logic
-
-### 4. Commit Changes
-```bash
-git add .
-git commit -m "Add: Description of changes"
-```
-
-### 5. Push to Fork
-```bash
-git push origin feature/your-feature-name
-```
-
-### 6. Create Pull Request
-- Describe your changes
-- Reference related issues
-- Wait for review
-
----
-
-## 📞 Support
-
-### Getting Help
-
-- **Documentation:** See `/docs` folder
-- **Issue Tracker:** GitHub Issues
-- **Email:** support@hospitalscheduler.com
-- **Community:** Discussion forum
-
-### Resources
-
-- [Google Maps API Docs](https://developers.google.com/maps)
-- [Node.js Documentation](https://nodejs.org/docs)
-- [Express.js Guide](https://expressjs.com)
-- [YouTube Demo Videos](#video-demo)
-
-### Presentation Materials
-
-Available in `/outputs`:
-- `PRESENTATION_SCRIPT.md` - 10-minute script
-- `SCRIPT_5_MIN_WITH_PATIENT.md` - 5-minute script
-- `YOUTUBE_VIDEO_DESCRIPTIONS.md` - 7 descriptions
-- `QUICK_REFERENCE_WITH_PATIENT.txt` - Quick reference
+Contributions welcome for:
+- Bug fixes
+- API improvements
+- UI/UX enhancements
+- Documentation
+- Additional demo features
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
+MIT License - Free to use, modify, and distribute
 
+---
+
+## 📞 Support
+
+- **Documentation:** Read this README
+- **Issues:** Check GitHub issues
+- **Questions:** Create an issue
+
+---
+
+## 🎉 Summary
+
+### What You Get
+
+✅ **Full-Stack Prototype** (Frontend + Backend)
+✅ **Express.js Backend** with 20+ API endpoints
+✅ **Booking System** fully functional
+✅ **Availability Management** fully functional
+✅ **Google Maps Integration** working
+✅ **4 Professional Dashboards** complete
+✅ **Perfect for Portfolio** or presentations
+
+### What You Don't Get (Yet)
+
+❌ Real database (in-memory only)
+❌ Real AI algorithm (simulated)
+❌ User authentication
+❌ Production-ready reliability
+❌ Data persistence
+
+### Best Use
+
+🎬 Demonstrations & presentations
+🎨 Portfolio showcase
+👥 Client feedback
+📚 Learning full-stack development
+🎓 Understanding system architecture
+
+---
+
+## 🚀 Ready to Use?
+
+```bash
+npm install
+node server.js
+# Open http://localhost:3000
 ```
-MIT License
 
-Copyright (c) 2025 Hospital Scheduler
+That's it! 🎉
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-```
+**Enjoy the full-stack prototype!**
 
 ---
 
-## 🚦 Roadmap
+Made with ❤️ as a full-stack prototype
 
-### Version 1.1 (Q2 2025)
-- [ ] Mobile app (iOS/Android)
-- [ ] SMS notifications
-- [ ] Advanced analytics
-- [ ] Multi-language support
-
-### Version 1.2 (Q3 2025)
-- [ ] Telemedicine integration
-- [ ] AI predictive analytics
-- [ ] Custom reporting
-- [ ] EHR system integration
-
-### Version 2.0 (Q4 2025)
-- [ ] Machine learning improvements
-- [ ] Real-time chat
-- [ ] Video consultations
-- [ ] Insurance integration
-
----
-
-## 📈 Statistics
-
-- ⭐ **Stars:** 500+
-- 🍴 **Forks:** 150+
-- 👥 **Contributors:** 25+
-- 📦 **Releases:** 5+
-- 📝 **Documentation:** 100%
-- ✅ **Test Coverage:** 85%
-
----
-
-## 🙏 Acknowledgments
-
-- Google Maps API team
-- Healthcare operations experts
-- Beta testers and early users
-- Open source community
-
----
-
-## 📮 Contact
-
-- **Website:** www.hospitalscheduler.com
-- **Email:** info@hospitalscheduler.com
-- **GitHub:** github.com/yourname/hospital-scheduler
-- **LinkedIn:** linkedin.com/company/hospital-scheduler
-- **Twitter:** @HospitalScheduler
-
----
-
-## 🎉 Ready to Get Started?
-
-### Quick Links
-- [Installation Guide](#installation)
-- [Usage Guide](#usage-guide)
-- [Demo Video](#video-demo)
-- [YouTube Descriptions](#video-demo)
-- [Troubleshooting](#troubleshooting)
-
----
-
-**Last Updated:** October 2025  
-**Maintained By:** Hospital Scheduler Team  
-**Current Version:** 1.0.0
-
----
-
-**Made with ❤️ for better healthcare**
+Last Updated: October 2025  
+Version: 1.0.0 (Full-Stack Prototype)
